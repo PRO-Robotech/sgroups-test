@@ -53,6 +53,55 @@
                  '2001:db8:85a3::8a2e:370:7334'
                 );
 
+            INSERT INTO
+                sgroups.tbl_host_meta_info(host_id, host_name, os, platform, platform_family, platform_version, kernel_version)
+            VALUES
+                (
+                 (SELECT id FROM sgroups.tbl_host WHERE name = 'host-0'),
+                 (SELECT name FROM sgroups.tbl_host WHERE name = 'host-0'),
+                 'linux',
+                 'ubuntu',
+                 'debian',
+                 '20.04',
+                 '5.15.0-139-generic'
+                ),
+                (
+                 (SELECT id FROM sgroups.tbl_host WHERE name = 'host-1'),
+                 (SELECT name FROM sgroups.tbl_host WHERE name = 'host-1'),
+                 'darwin',
+                 'macos',
+                 'mac',
+                 '14.0',
+                 '22.0.5'
+                ),
+                (
+                 (SELECT id FROM sgroups.tbl_host WHERE name = 'host-2'),
+                 (SELECT name FROM sgroups.tbl_host WHERE name = 'host-2'),
+                 'linux',
+                 'manjaro',
+                 'arch',
+                 '23.1.2',
+                 '6.6.13-1-MANJARO'
+                ),
+                (
+                 (SELECT id FROM sgroups.tbl_host WHERE name = 'host-3'),
+                 (SELECT name FROM sgroups.tbl_host WHERE name = 'host-3'),
+                 'darwin',
+                 'macos',
+                 'mac',
+                 '14.1',
+                 '22.0.0'
+                ),
+                (
+                 (SELECT id FROM sgroups.tbl_host WHERE name = 'host-4'),
+                 (SELECT name FROM sgroups.tbl_host WHERE name = 'host-4'),
+                 'linux',
+                 'manjaro',
+                 'arch',
+                 '23.0.1',
+                 '6.5.12-1-MANJARO'
+                );
+
             INSERT INTO sgroups.tbl_service(name)
                 VALUES ('svc-0'),('svc-1'),('svc-2'),('svc-3'),('svc-4'), ('svc-5');
 

@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "676fe5d5-d0b3-4e9e-9b0e-dcde4d367d69",
-		"name": "SGroups (api v2)",
+		"name": "SGroups (api tests)",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "16473884"
 	},
@@ -1627,12 +1627,23 @@
 									"});",
 									"",
 									"pm.test(\"check hosts\", () => {",
-									"    const hosts = pm.response.json().hosts[0]",
+									"    const hosts = pm.response.json().hosts[0].host",
 									"",
 									"    pm.expect(hosts.name).to.eql(\"host-1\")",
 									"    pm.expect(hosts.uuid).to.eql(\"7e14ccc7-0891-460e-8e3b-79c8642c4f97\")",
 									"    pm.expect(hosts.sgName).to.eql(\"sg-4\")",
 									"    pm.expect(hosts.ipList.IPs).to.eql([\"192.168.1.1\"])",
+									"});",
+									"",
+									"pm.test(\"check metaInfo\", () => {",
+									"    const metaInfo = pm.response.json().hosts[0].metaInfo",
+									"",
+									"    pm.expect(metaInfo.hostName).to.eql(\"host-1\")",
+									"    pm.expect(metaInfo.os).to.eql(\"darwin\")",
+									"    pm.expect(metaInfo.platform).to.eql(\"macos\")",
+									"    pm.expect(metaInfo.platformFamily).to.eql(\"mac\")",
+									"    pm.expect(metaInfo.platformVersion).to.eql(\"14.0\")",
+									"    pm.expect(metaInfo.kernelVersion).to.eql(\"22.0.5\")",
 									"});",
 									""
 								],
@@ -1704,9 +1715,28 @@
 									"    pm.expect(hostsItems).to.be.not.empty;",
 									"",
 									"    hostsItems.forEach(host => {",
-									"        pm.expect(host.uuid).to.eql(testData[host.name][0]);",
-									"        pm.expect(host.sgName).to.eql(testData[host.name][1]);",
-									"        pm.expect(host.ipList.IPs).to.eql(testData[host.name][2]);",
+									"        pm.expect(host.host.uuid).to.eql(testData[host.host.name][0]);",
+									"        pm.expect(host.host.sgName).to.eql(testData[host.host.name][1]);",
+									"        pm.expect(host.host.ipList.IPs).to.eql(testData[host.host.name][2]);",
+									"    });",
+									"});",
+									"",
+									"pm.test(\"Check metainfo\", () => {",
+									"    const items = pm.response.json().hosts;",
+									"",
+									"    const testData = {",
+									"        \"host-0\": [\"linux\", \"ubuntu\", \"debian\", \"20.04\", \"5.15.0-139-generic\"],",
+									"        \"host-1\": [\"darwin\", \"macos\", \"mac\", \"14.0\", \"22.0.5\"]",
+									"    };",
+									"",
+									"    pm.expect(items).to.be.not.empty;",
+									"",
+									"    items.forEach(item => {",
+									"        pm.expect(item.metaInfo.os).to.eql(testData[item.metaInfo.hostName][0]);",
+									"        pm.expect(item.metaInfo.platform).to.eql(testData[item.metaInfo.hostName][1]);",
+									"        pm.expect(item.metaInfo.platformFamily).to.eql(testData[item.metaInfo.hostName][2]);",
+									"        pm.expect(item.metaInfo.platformVersion).to.eql(testData[item.metaInfo.hostName][3]);",
+									"        pm.expect(item.metaInfo.kernelVersion).to.eql(testData[item.metaInfo.hostName][4]);",
 									"    });",
 									"});"
 								],
@@ -1817,17 +1847,28 @@
 									"});",
 									"",
 									"pm.test(\"Hosts array size is 1\", () => {",
-									"   const hostsArrayLength = pm.expect(response.json().hosts.length)",
-									"   hostsArrayLength.to.eql(1);",
+									"    const hostsArrayLength = pm.expect(response.json().hosts.length)",
+									"    hostsArrayLength.to.eql(1);",
 									"});",
 									"",
 									"pm.test(\"check hosts\", () => {",
-									"    const hosts = pm.response.json().hosts[0]",
+									"    const hosts = pm.response.json().hosts[0].host",
 									"",
-									"    pm.expect(hosts.name).to.eql(\"host-4\")",
-									"    pm.expect(hosts.uuid).to.eql(\"37310ec0-a294-4242-b458-3c63c3fa8665\")",
-									"    pm.expect(hosts.sgName).to.eql(\"\")",
-									"    pm.expect(hosts.ipList.IPs).is.empty",
+									"    pm.expect(hosts.name).to.eql(\"host-4\");",
+									"    pm.expect(hosts.uuid).to.eql(\"37310ec0-a294-4242-b458-3c63c3fa8665\");",
+									"    pm.expect(hosts.sgName).to.eql(\"\");",
+									"    pm.expect(hosts.ipList.IPs).to.eql([]);",
+									"});",
+									"",
+									"pm.test(\"check metaInfo\", () => {",
+									"    const metaInfo = pm.response.json().hosts[0].metaInfo",
+									"",
+									"    pm.expect(metaInfo.hostName).to.eql(\"host-4\")",
+									"    pm.expect(metaInfo.os).to.eql(\"linux\")",
+									"    pm.expect(metaInfo.platform).to.eql(\"manjaro\")",
+									"    pm.expect(metaInfo.platformFamily).to.eql(\"arch\")",
+									"    pm.expect(metaInfo.platformVersion).to.eql(\"23.0.1\")",
+									"    pm.expect(metaInfo.kernelVersion).to.eql(\"6.5.12-1-MANJARO\")",
 									"});",
 									""
 								],
@@ -2129,12 +2170,23 @@
 									"});",
 									"",
 									"pm.test(\"check hosts\", () => {",
-									"    const hosts = pm.response.json().hosts[0]",
+									"    const hosts = pm.response.json().hosts[0].host",
 									"",
 									"    pm.expect(hosts.name).to.eql(\"host-0\")",
 									"    pm.expect(hosts.uuid).to.eql(\"eb5b7e27-d869-4516-827a-b353c1b35c3c\")",
 									"    pm.expect(hosts.sgName).to.eql(\"sg-4\")",
 									"    pm.expect(hosts.ipList.IPs).to.eql([\"::1\"])",
+									"});",
+									"",
+									"pm.test(\"check metaInfo\", () => {",
+									"    const metaInfo = pm.response.json().hosts[0].metaInfo",
+									"",
+									"    pm.expect(metaInfo.hostName).to.eql(\"host-0\")",
+									"    pm.expect(metaInfo.os).to.eql(\"linux\")",
+									"    pm.expect(metaInfo.platform).to.eql(\"ubuntu\")",
+									"    pm.expect(metaInfo.platformFamily).to.eql(\"debian\")",
+									"    pm.expect(metaInfo.platformVersion).to.eql(\"20.04\")",
+									"    pm.expect(metaInfo.kernelVersion).to.eql(\"5.15.0-139-generic\")",
 									"});",
 									""
 								],
@@ -2189,17 +2241,28 @@
 									"});",
 									"",
 									"pm.test(\"Hosts array size is 1\", () => {",
-									"   const hostsArrayLength = pm.expect(response.json().hosts.length)",
-									"   hostsArrayLength.to.eql(1);",
+									"    const hostsArrayLength = pm.expect(response.json().hosts.length)",
+									"    hostsArrayLength.to.eql(1);",
 									"});",
 									"",
 									"pm.test(\"check hosts\", () => {",
-									"    const host = pm.response.json().hosts[0]",
+									"    const hosts = pm.response.json().hosts[0].host",
 									"",
-									"    pm.expect(host.name).to.eql(\"host-1\")",
-									"    pm.expect(host.uuid).to.eql(\"7e14ccc7-0891-460e-8e3b-79c8642c4f97\")",
-									"    pm.expect(host.sgName).to.eql(\"sg-4\")",
-									"    pm.expect(host.ipList.IPs).to.eql([\"192.168.1.1\"])",
+									"    pm.expect(hosts.name).to.eql(\"host-1\");",
+									"    pm.expect(hosts.uuid).to.eql(\"7e14ccc7-0891-460e-8e3b-79c8642c4f97\");",
+									"    pm.expect(hosts.sgName).to.eql(\"sg-4\");",
+									"    pm.expect(hosts.ipList.IPs).to.eql([\"192.168.1.1\"]);",
+									"});",
+									"",
+									"pm.test(\"check metaInfo\", () => {",
+									"    const metaInfo = pm.response.json().hosts[0].metaInfo",
+									"",
+									"    pm.expect(metaInfo.hostName).to.eql(\"host-1\")",
+									"    pm.expect(metaInfo.os).to.eql(\"darwin\")",
+									"    pm.expect(metaInfo.platform).to.eql(\"macos\")",
+									"    pm.expect(metaInfo.platformFamily).to.eql(\"mac\")",
+									"    pm.expect(metaInfo.platformVersion).to.eql(\"14.0\")",
+									"    pm.expect(metaInfo.kernelVersion).to.eql(\"22.0.5\")",
 									"});",
 									""
 								],
@@ -2715,17 +2778,28 @@
 									"});",
 									"",
 									"pm.test(\"Hosts array size is 1\", () => {",
-									"   const hostsArrayLength = pm.expect(response.json().hosts.length)",
-									"   hostsArrayLength.to.eql(1);",
+									"    const hostsArrayLength = pm.expect(response.json().hosts.length)",
+									"    hostsArrayLength.to.eql(1);",
 									"});",
 									"",
 									"pm.test(\"check hosts\", () => {",
-									"    const hosts = pm.response.json().hosts[0]",
+									"    const hosts = pm.response.json().hosts[0].host",
 									"",
-									"    pm.expect(hosts.name).to.eql(\"host-2\")",
-									"    pm.expect(hosts.uuid).to.eql(\"cbafd447-32e7-4449-b594-3c6699bda8b6\")",
-									"    pm.expect(hosts.sgName).to.eql(\"sg-5\")",
-									"    pm.expect(hosts.ipList.IPs).to.eql([\"2001:db8:85a3::8a2e:370:7334\"])",
+									"    pm.expect(hosts.name).to.eql(\"host-2\");",
+									"    pm.expect(hosts.uuid).to.eql(\"cbafd447-32e7-4449-b594-3c6699bda8b6\");",
+									"    pm.expect(hosts.sgName).to.eql(\"sg-5\");",
+									"    pm.expect(hosts.ipList.IPs).to.eql([\"2001:db8:85a3::8a2e:370:7334\"]);",
+									"});",
+									"",
+									"pm.test(\"check metaInfo\", () => {",
+									"    const metaInfo = pm.response.json().hosts[0].metaInfo",
+									"",
+									"    pm.expect(metaInfo.hostName).to.eql(\"host-2\")",
+									"    pm.expect(metaInfo.os).to.eql(\"linux\")",
+									"    pm.expect(metaInfo.platform).to.eql(\"manjaro\")",
+									"    pm.expect(metaInfo.platformFamily).to.eql(\"arch\")",
+									"    pm.expect(metaInfo.platformVersion).to.eql(\"23.1.2\")",
+									"    pm.expect(metaInfo.kernelVersion).to.eql(\"6.6.13-1-MANJARO\")",
 									"});",
 									""
 								],
@@ -2775,13 +2849,15 @@
 									"});",
 									"",
 									"pm.test(\"Validate response JSON schema\", () => {",
-									"    const hostsJsonSchema = JSON.parse(pm.variables.get(\"hostsResponseJsonSchema\"))",
+									"    const hostsJsonSchema = JSON.parse(pm.variables.get(\"hostsResponseJsonSchema\"));",
+									"",
 									"    response.to.have.jsonSchema(hostsJsonSchema);",
 									"});",
 									"",
 									"pm.test(\"Hosts array size is 2\", () => {",
-									"   const hostsArrayLength = pm.expect(response.json().hosts.length)",
-									"   hostsArrayLength.to.eql(2);",
+									"    const hostsArrayLength = pm.expect(response.json().hosts.length);",
+									"    ",
+									"    hostsArrayLength.to.eql(2);",
 									"});",
 									"",
 									"pm.test(\"Check hosts\", () => {",
@@ -2795,12 +2871,30 @@
 									"    pm.expect(hostsItems).to.be.not.empty;",
 									"",
 									"    hostsItems.forEach(host => {",
-									"        pm.expect(host.uuid).to.eql(testData[host.name][0]);",
-									"        pm.expect(host.sgName).to.eql(testData[host.name][1]);",
-									"        pm.expect(host.ipList.IPs).to.eql(testData[host.name][2]);",
+									"        pm.expect(host.host.uuid).to.eql(testData[host.host.name][0]);",
+									"        pm.expect(host.host.sgName).to.eql(testData[host.host.name][1]);",
+									"        pm.expect(host.host.ipList.IPs).to.eql(testData[host.host.name][2]);",
 									"    });",
 									"});",
-									""
+									"",
+									"pm.test(\"Check metainfo\", () => {",
+									"    const items = pm.response.json().hosts;",
+									"",
+									"    const testData = {",
+									"        \"host-0\": [\"linux\", \"ubuntu\", \"debian\", \"20.04\", \"5.15.0-139-generic\"],",
+									"        \"host-1\": [\"darwin\", \"macos\", \"mac\", \"14.0\", \"22.0.5\"]",
+									"    };",
+									"",
+									"    pm.expect(items).to.be.not.empty;",
+									"",
+									"    items.forEach(item => {",
+									"        pm.expect(item.metaInfo.os).to.eql(testData[item.metaInfo.hostName][0]);",
+									"        pm.expect(item.metaInfo.platform).to.eql(testData[item.metaInfo.hostName][1]);",
+									"        pm.expect(item.metaInfo.platformFamily).to.eql(testData[item.metaInfo.hostName][2]);",
+									"        pm.expect(item.metaInfo.platformVersion).to.eql(testData[item.metaInfo.hostName][3]);",
+									"        pm.expect(item.metaInfo.kernelVersion).to.eql(testData[item.metaInfo.hostName][4]);",
+									"    });",
+									"});"
 								],
 								"type": "text/javascript",
 								"packages": {},
@@ -2853,17 +2947,28 @@
 									"});",
 									"",
 									"pm.test(\"Hosts array size is 1\", () => {",
-									"   const hostsArrayLength = pm.expect(response.json().hosts.length)",
-									"   hostsArrayLength.to.eql(1);",
+									"    const hostsArrayLength = pm.expect(response.json().hosts.length)",
+									"    hostsArrayLength.to.eql(1);",
 									"});",
 									"",
 									"pm.test(\"check hosts\", () => {",
-									"    const hosts = pm.response.json().hosts[0]",
+									"    const hosts = pm.response.json().hosts[0].host",
 									"",
-									"    pm.expect(hosts.name).to.eql(\"host-2\")",
-									"    pm.expect(hosts.uuid).to.eql(\"cbafd447-32e7-4449-b594-3c6699bda8b6\")",
-									"    pm.expect(hosts.sgName).to.eql(\"sg-5\")",
-									"    pm.expect(hosts.ipList.IPs).to.eql([\"2001:db8:85a3::8a2e:370:7334\"])",
+									"    pm.expect(hosts.name).to.eql(\"host-2\");",
+									"    pm.expect(hosts.uuid).to.eql(\"cbafd447-32e7-4449-b594-3c6699bda8b6\");",
+									"    pm.expect(hosts.sgName).to.eql(\"sg-5\");",
+									"    pm.expect(hosts.ipList.IPs).to.eql([\"2001:db8:85a3::8a2e:370:7334\"]);",
+									"});",
+									"",
+									"pm.test(\"check metaInfo\", () => {",
+									"    const metaInfo = pm.response.json().hosts[0].metaInfo",
+									"",
+									"    pm.expect(metaInfo.hostName).to.eql(\"host-2\")",
+									"    pm.expect(metaInfo.os).to.eql(\"linux\")",
+									"    pm.expect(metaInfo.platform).to.eql(\"manjaro\")",
+									"    pm.expect(metaInfo.platformFamily).to.eql(\"arch\")",
+									"    pm.expect(metaInfo.platformVersion).to.eql(\"23.1.2\")",
+									"    pm.expect(metaInfo.kernelVersion).to.eql(\"6.6.13-1-MANJARO\")",
 									"});",
 									""
 								],
@@ -2974,9 +3079,9 @@
 									"    response.to.have.jsonSchema(hostsJsonSchema);",
 									"});",
 									"",
-									"pm.test(\"Hosts array size is 5\", () => {",
+									"pm.test(\"Hosts array size is 0\", () => {",
 									"   const hostsArrayLength = pm.expect(response.json().hosts.length)",
-									"   hostsArrayLength.to.eql(5);",
+									"   hostsArrayLength.to.eql(0);",
 									"});",
 									"",
 									""
@@ -18709,6 +18814,2189 @@
 											"path": [
 												"{{apiV}}",
 												"sync"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "upd host info",
+							"item": [
+								{
+									"name": "[UPD-HOST-INFO] Ошибка при обновлении host, host с таким uuid не существует",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"\r",
+													"pm.test(\"Status code is 404\", () => {\r",
+													"    response.to.have.status(404);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Validate response JSON schema\", () => {\r",
+													"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))\r",
+													"    response.to.have.jsonSchema(errorJsonSchema);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Code is 5\", () => {\r",
+													"   const code = pm.expect(response.json().code)\r",
+													"   code.to.eql(5);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Check error message\", () => {\r",
+													"   const message = pm.expect(response.json().message)\r",
+													"\r",
+													"   const expectedStrings = [\"does not exist\", \"host not registered\"]\r",
+													"   expectedStrings.forEach(string => {\r",
+													"       message.to.include(string)\r",
+													"   })\r",
+													"});\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"hosts\": [\r\n        {\r\n            \"ipList\": {\r\n                \"IPs\": [\r\n                    \"::1\",\r\n                    \"127.0.0.1\"\r\n                ]\r\n            },\r\n            \"metaInfo\": {\r\n                \"hostName\": \"add-host-0\",\r\n                \"os\": \"linux\",\r\n                \"platform\": \"ubuntu\",\r\n                \"platformFamily\": \"debiann\",\r\n                \"platformVersion\": \"20.044\",\r\n                \"kernelVersion\": \"5.15.0-139-genericc\"\r\n            },\r\n            \"uuid\": \"1e34d1ae-6114-4197-8f78-d1600a19828f\"\r\n        }\r\n    ]\r\n}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{HOST}}:{{PORT}}/{{apiV}}/upd-host-info",
+											"host": [
+												"{{HOST}}"
+											],
+											"port": "{{PORT}}",
+											"path": [
+												"{{apiV}}",
+												"upd-host-info"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[UPD-HOST-INFO] Ошибка при обновлении host, uuid короткий",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"\r",
+													"pm.test(\"Status code is 400\", () => {\r",
+													"    response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Validate response JSON schema\", () => {\r",
+													"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))\r",
+													"    response.to.have.jsonSchema(errorJsonSchema);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Code is 3\", () => {\r",
+													"   const code = pm.expect(response.json().code)\r",
+													"   code.to.eql(3);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Check error message\", () => {\r",
+													"   const message = pm.expect(response.json().message)\r",
+													"\r",
+													"   const expectedStrings = [\"invalid UUID length\"]\r",
+													"   expectedStrings.forEach(string => {\r",
+													"       message.to.include(string)\r",
+													"   })\r",
+													"});\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"hosts\": [\r\n        {\r\n            \"ipList\": {\r\n                \"IPs\": [\r\n                    \"::1\",\r\n                    \"127.0.0.1\"\r\n                ]\r\n            },\r\n            \"metaInfo\": {\r\n                \"hostName\": \"add-host-0\",\r\n                \"os\": \"linux\",\r\n                \"platform\": \"ubuntu\",\r\n                \"platformFamily\": \"debiann\",\r\n                \"platformVersion\": \"20.044\",\r\n                \"kernelVersion\": \"5.15.0-139-genericc\"\r\n            },\r\n            \"uuid\": \"1e34d1ae-6114-4197-8f78-d1600a19828\"\r\n        }\r\n    ]\r\n}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{HOST}}:{{PORT}}/{{apiV}}/upd-host-info",
+											"host": [
+												"{{HOST}}"
+											],
+											"port": "{{PORT}}",
+											"path": [
+												"{{apiV}}",
+												"upd-host-info"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[UPD-HOST-INFO] Ошибка при обновлении host, uuid длинный",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"\r",
+													"pm.test(\"Status code is 400\", () => {\r",
+													"    response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Validate response JSON schema\", () => {\r",
+													"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))\r",
+													"    response.to.have.jsonSchema(errorJsonSchema);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Code is 3\", () => {\r",
+													"   const code = pm.expect(response.json().code)\r",
+													"   code.to.eql(3);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Check error message\", () => {\r",
+													"   const message = pm.expect(response.json().message)\r",
+													"\r",
+													"   const expectedStrings = [\"invalid UUID length\"]\r",
+													"   expectedStrings.forEach(string => {\r",
+													"       message.to.include(string)\r",
+													"   })\r",
+													"});\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"hosts\": [\r\n        {\r\n            \"ipList\": {\r\n                \"IPs\": [\r\n                    \"::1\",\r\n                    \"127.0.0.1\"\r\n                ]\r\n            },\r\n            \"metaInfo\": {\r\n                \"hostName\": \"add-host-0\",\r\n                \"os\": \"linux\",\r\n                \"platform\": \"ubuntu\",\r\n                \"platformFamily\": \"debiann\",\r\n                \"platformVersion\": \"20.044\",\r\n                \"kernelVersion\": \"5.15.0-139-genericc\"\r\n            },\r\n            \"uuid\": \"1e34d1ae-6114-4197-8f78-d1600a1982890\"\r\n        }\r\n    ]\r\n}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{HOST}}:{{PORT}}/{{apiV}}/upd-host-info",
+											"host": [
+												"{{HOST}}"
+											],
+											"port": "{{PORT}}",
+											"path": [
+												"{{apiV}}",
+												"upd-host-info"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[UPD-HOST-INFO] Ошибка при обновлении host, uuid пуст",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"\r",
+													"pm.test(\"Status code is 400\", () => {\r",
+													"    response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Validate response JSON schema\", () => {\r",
+													"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))\r",
+													"    response.to.have.jsonSchema(errorJsonSchema);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Code is 3\", () => {\r",
+													"   const code = pm.expect(response.json().code)\r",
+													"   code.to.eql(3);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Check error message\", () => {\r",
+													"   const message = pm.expect(response.json().message)\r",
+													"\r",
+													"   const expectedStrings = [\"invalid UUID length\"]\r",
+													"   expectedStrings.forEach(string => {\r",
+													"       message.to.include(string)\r",
+													"   })\r",
+													"});\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"hosts\": [\r\n        {\r\n            \"ipList\": {\r\n                \"IPs\": [\r\n                    \"::1\",\r\n                    \"127.0.0.1\"\r\n                ]\r\n            },\r\n            \"metaInfo\": {\r\n                \"hostName\": \"add-host-0\",\r\n                \"os\": \"linux\",\r\n                \"platform\": \"ubuntu\",\r\n                \"platformFamily\": \"debiann\",\r\n                \"platformVersion\": \"20.044\",\r\n                \"kernelVersion\": \"5.15.0-139-genericc\"\r\n            },\r\n            \"uuid\": \"\"\r\n        }\r\n    ]\r\n}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{HOST}}:{{PORT}}/{{apiV}}/upd-host-info",
+											"host": [
+												"{{HOST}}"
+											],
+											"port": "{{PORT}}",
+											"path": [
+												"{{apiV}}",
+												"upd-host-info"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[UPD-HOST-INFO] Ошибка при обновлении host, uuid отсутствует как параметр",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"\r",
+													"pm.test(\"Status code is 400\", () => {\r",
+													"    response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Validate response JSON schema\", () => {\r",
+													"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))\r",
+													"    response.to.have.jsonSchema(errorJsonSchema);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Code is 3\", () => {\r",
+													"   const code = pm.expect(response.json().code)\r",
+													"   code.to.eql(3);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Check error message\", () => {\r",
+													"   const message = pm.expect(response.json().message)\r",
+													"\r",
+													"   const expectedStrings = [\"invalid UUID length\"]\r",
+													"   expectedStrings.forEach(string => {\r",
+													"       message.to.include(string)\r",
+													"   })\r",
+													"});\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"hosts\": [\r\n        {\r\n            \"ipList\": {\r\n                \"IPs\": [\r\n                    \"::1\",\r\n                    \"127.0.0.1\"\r\n                ]\r\n            },\r\n            \"metaInfo\": {\r\n                \"hostName\": \"add-host-0\",\r\n                \"os\": \"linux\",\r\n                \"platform\": \"ubuntu\",\r\n                \"platformFamily\": \"debiann\",\r\n                \"platformVersion\": \"20.044\",\r\n                \"kernelVersion\": \"5.15.0-139-genericc\"\r\n            }\r\n            \r\n        }\r\n    ]\r\n}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{HOST}}:{{PORT}}/{{apiV}}/upd-host-info",
+											"host": [
+												"{{HOST}}"
+											],
+											"port": "{{PORT}}",
+											"path": [
+												"{{apiV}}",
+												"upd-host-info"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[UPD-HOST-INFO] Ошибка при обновлении host, невалидный IPv4",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"\r",
+													"pm.test(\"Status code is 400\", () => {\r",
+													"    response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Validate response JSON schema\", () => {\r",
+													"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))\r",
+													"    response.to.have.jsonSchema(errorJsonSchema);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Code is 3\", () => {\r",
+													"   const code = pm.expect(response.json().code)\r",
+													"   code.to.eql(3);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Check error message\", () => {\r",
+													"   const message = pm.expect(response.json().message)\r",
+													"\r",
+													"   const expectedStrings = [\"IPv4 field has value >255\"]\r",
+													"   expectedStrings.forEach(string => {\r",
+													"       message.to.include(string)\r",
+													"   })\r",
+													"});\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"hosts\": [\r\n        {\r\n            \"ipList\": {\r\n                \"IPs\": [\r\n                    \"::1\",\r\n                    \"256.0.0.1\"\r\n                ]\r\n            },\r\n            \"metaInfo\": {\r\n                \"hostName\": \"add-host-0\",\r\n                \"os\": \"linux\",\r\n                \"platform\": \"ubuntu\",\r\n                \"platformFamily\": \"debiann\",\r\n                \"platformVersion\": \"20.044\",\r\n                \"kernelVersion\": \"5.15.0-139-genericc\"\r\n            },\r\n            \"uuid\": \"7e14ccc7-0891-460e-8e3b-79c8642c4f97\"\r\n        }\r\n    ]\r\n}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{HOST}}:{{PORT}}/{{apiV}}/upd-host-info",
+											"host": [
+												"{{HOST}}"
+											],
+											"port": "{{PORT}}",
+											"path": [
+												"{{apiV}}",
+												"upd-host-info"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[UPD-HOST-INFO] Ошибка при обновлении host, невалидный IPv6",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"\r",
+													"pm.test(\"Status code is 400\", () => {\r",
+													"    response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Validate response JSON schema\", () => {\r",
+													"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))\r",
+													"    response.to.have.jsonSchema(errorJsonSchema);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Code is 3\", () => {\r",
+													"   const code = pm.expect(response.json().code)\r",
+													"   code.to.eql(3);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Check error message\", () => {\r",
+													"   const message = pm.expect(response.json().message)\r",
+													"\r",
+													"   const expectedStrings = [\"each colon-separated field must have at least one digit\"]\r",
+													"   expectedStrings.forEach(string => {\r",
+													"       message.to.include(string)\r",
+													"   })\r",
+													"});\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"hosts\": [\r\n        {\r\n            \"ipList\": {\r\n                \"IPs\": [\r\n                    \":1\",\r\n                    \"255.0.0.1\"\r\n                ]\r\n            },\r\n            \"metaInfo\": {\r\n                \"hostName\": \"add-host-0\",\r\n                \"os\": \"linux\",\r\n                \"platform\": \"ubuntu\",\r\n                \"platformFamily\": \"debiann\",\r\n                \"platformVersion\": \"20.044\",\r\n                \"kernelVersion\": \"5.15.0-139-genericc\"\r\n            },\r\n            \"uuid\": \"7e14ccc7-0891-460e-8e3b-79c8642c4f97\"\r\n        }\r\n    ]\r\n}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{HOST}}:{{PORT}}/{{apiV}}/upd-host-info",
+											"host": [
+												"{{HOST}}"
+											],
+											"port": "{{PORT}}",
+											"path": [
+												"{{apiV}}",
+												"upd-host-info"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[UPD-HOST-INFO] Ошибка при обновлении host, невалидный IPv4 c подсетью",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"\r",
+													"pm.test(\"Status code is 400\", () => {\r",
+													"    response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Validate response JSON schema\", () => {\r",
+													"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))\r",
+													"    response.to.have.jsonSchema(errorJsonSchema);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Code is 3\", () => {\r",
+													"   const code = pm.expect(response.json().code)\r",
+													"   code.to.eql(3);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Check error message\", () => {\r",
+													"   const message = pm.expect(response.json().message)\r",
+													"\r",
+													"   const expectedStrings = [\"unexpected character\"]\r",
+													"   expectedStrings.forEach(string => {\r",
+													"       message.to.include(string)\r",
+													"   })\r",
+													"});\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"hosts\": [\r\n        {\r\n            \"ipList\": {\r\n                \"IPs\": [\r\n                    \"::1\",\r\n                    \"127.0.0.1/32\"\r\n                ]\r\n            },\r\n            \"metaInfo\": {\r\n                \"hostName\": \"add-host-0\",\r\n                \"os\": \"linux\",\r\n                \"platform\": \"ubuntu\",\r\n                \"platformFamily\": \"debiann\",\r\n                \"platformVersion\": \"20.044\",\r\n                \"kernelVersion\": \"5.15.0-139-genericc\"\r\n            },\r\n            \"uuid\": \"7e14ccc7-0891-460e-8e3b-79c8642c4f97\"\r\n        }\r\n    ]\r\n}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{HOST}}:{{PORT}}/{{apiV}}/upd-host-info",
+											"host": [
+												"{{HOST}}"
+											],
+											"port": "{{PORT}}",
+											"path": [
+												"{{apiV}}",
+												"upd-host-info"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[UPD-HOST-INFO] Ошибка при обновлении host, невалидный IPv6 c подсетью",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"\r",
+													"pm.test(\"Status code is 400\", () => {\r",
+													"    response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Validate response JSON schema\", () => {\r",
+													"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))\r",
+													"    response.to.have.jsonSchema(errorJsonSchema);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Code is 3\", () => {\r",
+													"   const code = pm.expect(response.json().code)\r",
+													"   code.to.eql(3);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Check error message\", () => {\r",
+													"   const message = pm.expect(response.json().message)\r",
+													"\r",
+													"   const expectedStrings = [\"unexpected character\"]\r",
+													"   expectedStrings.forEach(string => {\r",
+													"       message.to.include(string)\r",
+													"   })\r",
+													"});\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"hosts\": [\r\n        {\r\n            \"ipList\": {\r\n                \"IPs\": [\r\n                    \"::1/128\",\r\n                    \"127.0.0.1\"\r\n                ]\r\n            },\r\n            \"metaInfo\": {\r\n                \"hostName\": \"add-host-0\",\r\n                \"os\": \"linux\",\r\n                \"platform\": \"ubuntu\",\r\n                \"platformFamily\": \"debiann\",\r\n                \"platformVersion\": \"20.044\",\r\n                \"kernelVersion\": \"5.15.0-139-genericc\"\r\n            },\r\n            \"uuid\": \"7e14ccc7-0891-460e-8e3b-79c8642c4f97\"\r\n        }\r\n    ]\r\n}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{HOST}}:{{PORT}}/{{apiV}}/upd-host-info",
+											"host": [
+												"{{HOST}}"
+											],
+											"port": "{{PORT}}",
+											"path": [
+												"{{apiV}}",
+												"upd-host-info"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[UPD-HOST-INFO] Ошибка при обновлении host, невалидный IP в виде текста",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"\r",
+													"pm.test(\"Status code is 400\", () => {\r",
+													"    response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Validate response JSON schema\", () => {\r",
+													"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))\r",
+													"    response.to.have.jsonSchema(errorJsonSchema);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Code is 3\", () => {\r",
+													"   const code = pm.expect(response.json().code)\r",
+													"   code.to.eql(3);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Check error message\", () => {\r",
+													"   const message = pm.expect(response.json().message)\r",
+													"\r",
+													"   const expectedStrings = [\"unable to parse IP\"]\r",
+													"   expectedStrings.forEach(string => {\r",
+													"       message.to.include(string)\r",
+													"   })\r",
+													"});\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"hosts\": [\r\n        {\r\n            \"ipList\": {\r\n                \"IPs\": [\r\n                    \"text\",\r\n                    \"127.0.0.1\"\r\n                ]\r\n            },\r\n            \"metaInfo\": {\r\n                \"hostName\": \"add-host-0\",\r\n                \"os\": \"linux\",\r\n                \"platform\": \"ubuntu\",\r\n                \"platformFamily\": \"debiann\",\r\n                \"platformVersion\": \"20.044\",\r\n                \"kernelVersion\": \"5.15.0-139-genericc\"\r\n            },\r\n            \"uuid\": \"7e14ccc7-0891-460e-8e3b-79c8642c4f97\"\r\n        }\r\n    ]\r\n}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{HOST}}:{{PORT}}/{{apiV}}/upd-host-info",
+											"host": [
+												"{{HOST}}"
+											],
+											"port": "{{PORT}}",
+											"path": [
+												"{{apiV}}",
+												"upd-host-info"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[UPD-HOST-INFO] Ошибка при обновлении host, hostName в metaInfo пуст",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"\r",
+													"pm.test(\"Status code is 500\", () => {\r",
+													"    response.to.have.status(500);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Validate response JSON schema\", () => {\r",
+													"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))\r",
+													"    response.to.have.jsonSchema(errorJsonSchema);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Code is 13\", () => {\r",
+													"   const code = pm.expect(response.json().code)\r",
+													"   code.to.eql(13);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Check error message\", () => {\r",
+													"   const message = pm.expect(response.json().message)\r",
+													"\r",
+													"   const expectedStrings = [\"cname_validity\"]\r",
+													"   expectedStrings.forEach(string => {\r",
+													"       message.to.include(string)\r",
+													"   })\r",
+													"});\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"hosts\": [\r\n        {\r\n            \"ipList\": {\r\n                \"IPs\": [\r\n                    \"127.0.0.1\"\r\n                ]\r\n            },\r\n            \"metaInfo\": {\r\n                \"hostName\": \"\",\r\n                \"os\": \"linux\",\r\n                \"platform\": \"ubuntu\",\r\n                \"platformFamily\": \"debiann\"\r\n            },\r\n            \"uuid\": \"7e14ccc7-0891-460e-8e3b-79c8642c4f97\"\r\n        }\r\n    ]\r\n}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{HOST}}:{{PORT}}/{{apiV}}/upd-host-info",
+											"host": [
+												"{{HOST}}"
+											],
+											"port": "{{PORT}}",
+											"path": [
+												"{{apiV}}",
+												"upd-host-info"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[UPD-HOST-INFO] Ошибка при обновлении host, пробел в начале значения hostName в metaInfo",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"\r",
+													"pm.test(\"Status code is 500\", () => {\r",
+													"    response.to.have.status(500);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Validate response JSON schema\", () => {\r",
+													"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))\r",
+													"    response.to.have.jsonSchema(errorJsonSchema);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Code is 13\", () => {\r",
+													"   const code = pm.expect(response.json().code)\r",
+													"   code.to.eql(13);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Check error message\", () => {\r",
+													"   const message = pm.expect(response.json().message)\r",
+													"\r",
+													"   const expectedStrings = [\"cname_validity\"]\r",
+													"   expectedStrings.forEach(string => {\r",
+													"       message.to.include(string)\r",
+													"   })\r",
+													"});\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"hosts\": [\r\n        {\r\n            \"ipList\": {\r\n                \"IPs\": [\r\n                    \"127.0.0.1\"\r\n                ]\r\n            },\r\n            \"metaInfo\": {\r\n                \"hostName\": \" host-1\",\r\n                \"os\": \"linux\",\r\n                \"platform\": \"ubuntu\",\r\n                \"platformFamily\": \"debiann\"\r\n            },\r\n            \"uuid\": \"7e14ccc7-0891-460e-8e3b-79c8642c4f97\"\r\n        }\r\n    ]\r\n}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{HOST}}:{{PORT}}/{{apiV}}/upd-host-info",
+											"host": [
+												"{{HOST}}"
+											],
+											"port": "{{PORT}}",
+											"path": [
+												"{{apiV}}",
+												"upd-host-info"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[UPD-HOST-INFO] Ошибка при обновлении host,  hostName в metaInfo содержит > 255 символов",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"\r",
+													"pm.test(\"Status code is 500\", () => {\r",
+													"    response.to.have.status(500);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Validate response JSON schema\", () => {\r",
+													"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))\r",
+													"    response.to.have.jsonSchema(errorJsonSchema);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Code is 13\", () => {\r",
+													"   const code = pm.expect(response.json().code)\r",
+													"   code.to.eql(13);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Check error message\", () => {\r",
+													"   const message = pm.expect(response.json().message)\r",
+													"\r",
+													"   const expectedStrings = [\"cname_length\"]\r",
+													"   expectedStrings.forEach(string => {\r",
+													"       message.to.include(string)\r",
+													"   })\r",
+													"});\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.variables.set(\"hostName\", JSON.stringify(customFunc.generateRandomString (259, 10)))"
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"hosts\": [\r\n        {\r\n            \"ipList\": {\r\n                \"IPs\": [\r\n                    \"127.0.0.1\"\r\n                ]\r\n            },\r\n            \"metaInfo\": {\r\n                \"hostName\": {{hostName}},\r\n                \"os\": \"linux\",\r\n                \"platform\": \"ubuntu\",\r\n                \"platformFamily\": \"debiann\"\r\n            },\r\n            \"uuid\": \"7e14ccc7-0891-460e-8e3b-79c8642c4f97\"\r\n        }\r\n    ]\r\n}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{HOST}}:{{PORT}}/{{apiV}}/upd-host-info",
+											"host": [
+												"{{HOST}}"
+											],
+											"port": "{{PORT}}",
+											"path": [
+												"{{apiV}}",
+												"upd-host-info"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[UPD-HOST-INFO] Ошибка при обновлении host, пробел в конце значения hostName в metaInfo",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"\r",
+													"pm.test(\"Status code is 500\", () => {\r",
+													"    response.to.have.status(500);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Validate response JSON schema\", () => {\r",
+													"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))\r",
+													"    response.to.have.jsonSchema(errorJsonSchema);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Code is 13\", () => {\r",
+													"   const code = pm.expect(response.json().code)\r",
+													"   code.to.eql(13);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Check error message\", () => {\r",
+													"   const message = pm.expect(response.json().message)\r",
+													"\r",
+													"   const expectedStrings = [\"cname_validity\"]\r",
+													"   expectedStrings.forEach(string => {\r",
+													"       message.to.include(string)\r",
+													"   })\r",
+													"});\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"hosts\": [\r\n        {\r\n            \"ipList\": {\r\n                \"IPs\": [\r\n                    \"127.0.0.1\"\r\n                ]\r\n            },\r\n            \"metaInfo\": {\r\n                \"hostName\": \"host-1 \",\r\n                \"os\": \"linux\",\r\n                \"platform\": \"ubuntu\",\r\n                \"platformFamily\": \"debiann\"\r\n            },\r\n            \"uuid\": \"7e14ccc7-0891-460e-8e3b-79c8642c4f97\"\r\n        }\r\n    ]\r\n}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{HOST}}:{{PORT}}/{{apiV}}/upd-host-info",
+											"host": [
+												"{{HOST}}"
+											],
+											"port": "{{PORT}}",
+											"path": [
+												"{{apiV}}",
+												"upd-host-info"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[UPD-HOST-INFO] Ошибка при обновлении host, hostName в metaInfo отсутствует как параметр",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"\r",
+													"pm.test(\"Status code is 500\", () => {\r",
+													"    response.to.have.status(500);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Validate response JSON schema\", () => {\r",
+													"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))\r",
+													"    response.to.have.jsonSchema(errorJsonSchema);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Code is 13\", () => {\r",
+													"   const code = pm.expect(response.json().code)\r",
+													"   code.to.eql(13);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Check error message\", () => {\r",
+													"   const message = pm.expect(response.json().message)\r",
+													"\r",
+													"   const expectedStrings = [\"cname_validity\"]\r",
+													"   expectedStrings.forEach(string => {\r",
+													"       message.to.include(string)\r",
+													"   })\r",
+													"});\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"hosts\": [\r\n        {\r\n            \"ipList\": {\r\n                \"IPs\": [\r\n                    \"127.0.0.1\"\r\n                ]\r\n            },\r\n            \"metaInfo\": {\r\n                \"os\": \"linux\",\r\n                \"platform\": \"ubuntu\",\r\n                \"platformFamily\": \"debiann\"\r\n            },\r\n            \"uuid\": \"7e14ccc7-0891-460e-8e3b-79c8642c4f97\"\r\n        }\r\n    ]\r\n}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{HOST}}:{{PORT}}/{{apiV}}/upd-host-info",
+											"host": [
+												"{{HOST}}"
+											],
+											"port": "{{PORT}}",
+											"path": [
+												"{{apiV}}",
+												"upd-host-info"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[UPD-HOST-INFO] Ошибка при обновлении host, os в metaInfo пуст",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"\r",
+													"pm.test(\"Status code is 500\", () => {\r",
+													"    response.to.have.status(500);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Validate response JSON schema\", () => {\r",
+													"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))\r",
+													"    response.to.have.jsonSchema(errorJsonSchema);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Code is 13\", () => {\r",
+													"   const code = pm.expect(response.json().code)\r",
+													"   code.to.eql(13);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Check error message\", () => {\r",
+													"   const message = pm.expect(response.json().message)\r",
+													"\r",
+													"   const expectedStrings = [\"cname_validity\"]\r",
+													"   expectedStrings.forEach(string => {\r",
+													"       message.to.include(string)\r",
+													"   })\r",
+													"});\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"hosts\": [\r\n        {\r\n            \"ipList\": {\r\n                \"IPs\": [\r\n                    \"127.0.0.1\"\r\n                ]\r\n            },\r\n            \"metaInfo\": {\r\n                \"hostName\": \"add-host-0\",\r\n                \"os\": \"\",\r\n                \"platform\": \"ubuntu\",\r\n                \"platformFamily\": \"debiann\",\r\n                \"platformVersion\": \"20.044\",\r\n                \"kernelVersion\": \"5.15.0-139-genericc\"\r\n            },\r\n            \"uuid\": \"7e14ccc7-0891-460e-8e3b-79c8642c4f97\"\r\n        }\r\n    ]\r\n}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{HOST}}:{{PORT}}/{{apiV}}/upd-host-info",
+											"host": [
+												"{{HOST}}"
+											],
+											"port": "{{PORT}}",
+											"path": [
+												"{{apiV}}",
+												"upd-host-info"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[UPD-HOST-INFO] Ошибка при обновлении host, пробел в начале названия os в metaInfo",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"\r",
+													"pm.test(\"Status code is 500\", () => {\r",
+													"    response.to.have.status(500);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Validate response JSON schema\", () => {\r",
+													"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))\r",
+													"    response.to.have.jsonSchema(errorJsonSchema);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Code is 13\", () => {\r",
+													"   const code = pm.expect(response.json().code)\r",
+													"   code.to.eql(13);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Check error message\", () => {\r",
+													"   const message = pm.expect(response.json().message)\r",
+													"\r",
+													"   const expectedStrings = [\"cname_validity\"]\r",
+													"   expectedStrings.forEach(string => {\r",
+													"       message.to.include(string)\r",
+													"   })\r",
+													"});\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"hosts\": [\r\n        {\r\n            \"ipList\": {\r\n                \"IPs\": [\r\n                    \"127.0.0.1\"\r\n                ]\r\n            },\r\n            \"metaInfo\": {\r\n                \"hostName\": \"add-host-0\",\r\n                \"os\": \" linux\",\r\n                \"platform\": \"ubuntu\",\r\n                \"platformFamily\": \"debiann\",\r\n                \"platformVersion\": \"20.044\",\r\n                \"kernelVersion\": \"5.15.0-139-genericc\"\r\n            },\r\n            \"uuid\": \"7e14ccc7-0891-460e-8e3b-79c8642c4f97\"\r\n        }\r\n    ]\r\n}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{HOST}}:{{PORT}}/{{apiV}}/upd-host-info",
+											"host": [
+												"{{HOST}}"
+											],
+											"port": "{{PORT}}",
+											"path": [
+												"{{apiV}}",
+												"upd-host-info"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[UPD-HOST-INFO] Ошибка при обновлении host, пробел в конце названия os в metaInfo",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"\r",
+													"pm.test(\"Status code is 500\", () => {\r",
+													"    response.to.have.status(500);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Validate response JSON schema\", () => {\r",
+													"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))\r",
+													"    response.to.have.jsonSchema(errorJsonSchema);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Code is 13\", () => {\r",
+													"   const code = pm.expect(response.json().code)\r",
+													"   code.to.eql(13);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Check error message\", () => {\r",
+													"   const message = pm.expect(response.json().message)\r",
+													"\r",
+													"   const expectedStrings = [\"cname_validity\"]\r",
+													"   expectedStrings.forEach(string => {\r",
+													"       message.to.include(string)\r",
+													"   })\r",
+													"});\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"hosts\": [\r\n        {\r\n            \"ipList\": {\r\n                \"IPs\": [\r\n                    \"127.0.0.1\"\r\n                ]\r\n            },\r\n            \"metaInfo\": {\r\n                \"hostName\": \"add-host-0\",\r\n                \"os\": \"linux \",\r\n                \"platform\": \"ubuntu\",\r\n                \"platformFamily\": \"debiann\",\r\n                \"platformVersion\": \"20.044\",\r\n                \"kernelVersion\": \"5.15.0-139-genericc\"\r\n            },\r\n            \"uuid\": \"7e14ccc7-0891-460e-8e3b-79c8642c4f97\"\r\n        }\r\n    ]\r\n}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{HOST}}:{{PORT}}/{{apiV}}/upd-host-info",
+											"host": [
+												"{{HOST}}"
+											],
+											"port": "{{PORT}}",
+											"path": [
+												"{{apiV}}",
+												"upd-host-info"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[UPD-HOST-INFO] Ошибка при обновлении host, os в metaInfo содержит > 255 символов",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"\r",
+													"pm.test(\"Status code is 500\", () => {\r",
+													"    response.to.have.status(500);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Validate response JSON schema\", () => {\r",
+													"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))\r",
+													"    response.to.have.jsonSchema(errorJsonSchema);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Code is 13\", () => {\r",
+													"   const code = pm.expect(response.json().code)\r",
+													"   code.to.eql(13);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Check error message\", () => {\r",
+													"   const message = pm.expect(response.json().message)\r",
+													"\r",
+													"   const expectedStrings = [\"cname_length\"]\r",
+													"   expectedStrings.forEach(string => {\r",
+													"       message.to.include(string)\r",
+													"   })\r",
+													"});\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.variables.set(\"os\", JSON.stringify(customFunc.generateRandomString (259, 10)))"
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"hosts\": [\r\n        {\r\n            \"ipList\": {\r\n                \"IPs\": [\r\n                    \"127.0.0.1\"\r\n                ]\r\n            },\r\n            \"metaInfo\": {\r\n                \"hostName\": \"host-1\",\r\n                \"os\": {{os}},\r\n                \"platform\": \"ubuntu\",\r\n                \"platformFamily\": \"debiann\",\r\n                \"platformVersion\": \"20.044\",\r\n                \"kernelVersion\": \"5.15.0-139-genericc\"\r\n            },\r\n            \"uuid\": \"7e14ccc7-0891-460e-8e3b-79c8642c4f97\"\r\n        }\r\n    ]\r\n}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{HOST}}:{{PORT}}/{{apiV}}/upd-host-info",
+											"host": [
+												"{{HOST}}"
+											],
+											"port": "{{PORT}}",
+											"path": [
+												"{{apiV}}",
+												"upd-host-info"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[UPD-HOST-INFO] Ошибка при обновлении host, platform в metaInfo содержит > 255 символов",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"\r",
+													"pm.test(\"Status code is 500\", () => {\r",
+													"    response.to.have.status(500);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Validate response JSON schema\", () => {\r",
+													"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))\r",
+													"    response.to.have.jsonSchema(errorJsonSchema);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Code is 13\", () => {\r",
+													"   const code = pm.expect(response.json().code)\r",
+													"   code.to.eql(13);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Check error message\", () => {\r",
+													"   const message = pm.expect(response.json().message)\r",
+													"\r",
+													"   const expectedStrings = [\"cname0_length\"]\r",
+													"   expectedStrings.forEach(string => {\r",
+													"       message.to.include(string)\r",
+													"   })\r",
+													"});\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.variables.set(\"platform\", JSON.stringify(customFunc.generateRandomString (259, 10)))"
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"hosts\": [\r\n        {\r\n            \"ipList\": {\r\n                \"IPs\": [\r\n                    \"127.0.0.1\"\r\n                ]\r\n            },\r\n            \"metaInfo\": {\r\n                \"hostName\": \"host-1\",\r\n                \"os\": \"linux\",\r\n                \"platform\": {{platform}},\r\n                \"platformFamily\": \"debiann\",\r\n                \"platformVersion\": \"20.044\",\r\n                \"kernelVersion\": \"5.15.0-139-genericc\"\r\n            },\r\n            \"uuid\": \"7e14ccc7-0891-460e-8e3b-79c8642c4f97\"\r\n        }\r\n    ]\r\n}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{HOST}}:{{PORT}}/{{apiV}}/upd-host-info",
+											"host": [
+												"{{HOST}}"
+											],
+											"port": "{{PORT}}",
+											"path": [
+												"{{apiV}}",
+												"upd-host-info"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[UPD-HOST-INFO] Ошибка при обновлении host, platformFamily в metaInfo содержит > 255 символов",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"\r",
+													"pm.test(\"Status code is 500\", () => {\r",
+													"    response.to.have.status(500);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Validate response JSON schema\", () => {\r",
+													"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))\r",
+													"    response.to.have.jsonSchema(errorJsonSchema);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Code is 13\", () => {\r",
+													"   const code = pm.expect(response.json().code)\r",
+													"   code.to.eql(13);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Check error message\", () => {\r",
+													"   const message = pm.expect(response.json().message)\r",
+													"\r",
+													"   const expectedStrings = [\"cname0_length\"]\r",
+													"   expectedStrings.forEach(string => {\r",
+													"       message.to.include(string)\r",
+													"   })\r",
+													"});\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.variables.set(\"platformFamily\", JSON.stringify(customFunc.generateRandomString (259, 10)))"
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"hosts\": [\r\n        {\r\n            \"ipList\": {\r\n                \"IPs\": [\r\n                    \"127.0.0.1\"\r\n                ]\r\n            },\r\n            \"metaInfo\": {\r\n                \"hostName\": \"host-1\",\r\n                \"os\": \"linux\",\r\n                \"platform\": \"ubuntu\",\r\n                \"platformFamily\": {{platformFamily}},\r\n                \"platformVersion\": \"20.044\",\r\n                \"kernelVersion\": \"5.15.0-139-genericc\"\r\n            },\r\n            \"uuid\": \"7e14ccc7-0891-460e-8e3b-79c8642c4f97\"\r\n        }\r\n    ]\r\n}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{HOST}}:{{PORT}}/{{apiV}}/upd-host-info",
+											"host": [
+												"{{HOST}}"
+											],
+											"port": "{{PORT}}",
+											"path": [
+												"{{apiV}}",
+												"upd-host-info"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[UPD-HOST-INFO] Ошибка при обновлении host, platformVersion в metaInfo содержит > 255 символов",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"\r",
+													"pm.test(\"Status code is 500\", () => {\r",
+													"    response.to.have.status(500);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Validate response JSON schema\", () => {\r",
+													"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))\r",
+													"    response.to.have.jsonSchema(errorJsonSchema);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Code is 13\", () => {\r",
+													"   const code = pm.expect(response.json().code)\r",
+													"   code.to.eql(13);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Check error message\", () => {\r",
+													"   const message = pm.expect(response.json().message)\r",
+													"\r",
+													"   const expectedStrings = [\"cname0_length\"]\r",
+													"   expectedStrings.forEach(string => {\r",
+													"       message.to.include(string)\r",
+													"   })\r",
+													"});\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.variables.set(\"platformVersion\", JSON.stringify(customFunc.generateRandomString (259, 10)))"
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"hosts\": [\r\n        {\r\n            \"ipList\": {\r\n                \"IPs\": [\r\n                    \"127.0.0.1\"\r\n                ]\r\n            },\r\n            \"metaInfo\": {\r\n                \"hostName\": \"host-1\",\r\n                \"os\": \"linux\",\r\n                \"platform\": \"ubuntu\",\r\n                \"platformFamily\": \"debian\",\r\n                \"platformVersion\": {{platformVersion}},\r\n                \"kernelVersion\": \"5.15.0-139-genericc\"\r\n            },\r\n            \"uuid\": \"7e14ccc7-0891-460e-8e3b-79c8642c4f97\"\r\n        }\r\n    ]\r\n}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{HOST}}:{{PORT}}/{{apiV}}/upd-host-info",
+											"host": [
+												"{{HOST}}"
+											],
+											"port": "{{PORT}}",
+											"path": [
+												"{{apiV}}",
+												"upd-host-info"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[UPD-HOST-INFO] Ошибка при обновлении host, kernelVersion в metaInfo содержит > 255 символов",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"\r",
+													"pm.test(\"Status code is 500\", () => {\r",
+													"    response.to.have.status(500);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Validate response JSON schema\", () => {\r",
+													"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))\r",
+													"    response.to.have.jsonSchema(errorJsonSchema);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Code is 13\", () => {\r",
+													"   const code = pm.expect(response.json().code)\r",
+													"   code.to.eql(13);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Check error message\", () => {\r",
+													"   const message = pm.expect(response.json().message)\r",
+													"\r",
+													"   const expectedStrings = [\"cname0_length\"]\r",
+													"   expectedStrings.forEach(string => {\r",
+													"       message.to.include(string)\r",
+													"   })\r",
+													"});\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.variables.set(\"kernelVersion\", JSON.stringify(customFunc.generateRandomString (259, 10)))"
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"hosts\": [\r\n        {\r\n            \"ipList\": {\r\n                \"IPs\": [\r\n                    \"127.0.0.1\"\r\n                ]\r\n            },\r\n            \"metaInfo\": {\r\n                \"hostName\": \"host-1\",\r\n                \"os\": \"linux\",\r\n                \"platform\": \"ubuntu\",\r\n                \"platformFamily\": \"debian\",\r\n                \"platformVersion\": \"20.0501\",\r\n                \"kernelVersion\": {{kernelVersion}}\r\n            },\r\n            \"uuid\": \"7e14ccc7-0891-460e-8e3b-79c8642c4f97\"\r\n        }\r\n    ]\r\n}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{HOST}}:{{PORT}}/{{apiV}}/upd-host-info",
+											"host": [
+												"{{HOST}}"
+											],
+											"port": "{{PORT}}",
+											"path": [
+												"{{apiV}}",
+												"upd-host-info"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[UPD-HOST-INFO] Ошибка при обновлении host,  os в metaInfo отсутствует как параметр",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"\r",
+													"pm.test(\"Status code is 500\", () => {\r",
+													"    response.to.have.status(500);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Validate response JSON schema\", () => {\r",
+													"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))\r",
+													"    response.to.have.jsonSchema(errorJsonSchema);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Code is 13\", () => {\r",
+													"   const code = pm.expect(response.json().code)\r",
+													"   code.to.eql(13);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Check error message\", () => {\r",
+													"   const message = pm.expect(response.json().message)\r",
+													"\r",
+													"   const expectedStrings = [\"cname_validity\"]\r",
+													"   expectedStrings.forEach(string => {\r",
+													"       message.to.include(string)\r",
+													"   })\r",
+													"});\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"hosts\": [\r\n        {\r\n            \"ipList\": {\r\n                \"IPs\": [\r\n                    \"127.0.0.1\"\r\n                ]\r\n            },\r\n            \"metaInfo\": {\r\n                \"hostName\": \"add-host-0\",\r\n                \"platform\": \"ubuntu\",\r\n                \"platformFamily\": \"debiann\",\r\n                \"platformVersion\": \"20.044\",\r\n                \"kernelVersion\": \"5.15.0-139-genericc\"\r\n            },\r\n            \"uuid\": \"7e14ccc7-0891-460e-8e3b-79c8642c4f97\"\r\n        }\r\n    ]\r\n}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{HOST}}:{{PORT}}/{{apiV}}/upd-host-info",
+											"host": [
+												"{{HOST}}"
+											],
+											"port": "{{PORT}}",
+											"path": [
+												"{{apiV}}",
+												"upd-host-info"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[UPD-HOST-INFO] Ошибка при обновлении host,  пробел в начале названия platform в metaInfo",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"\r",
+													"pm.test(\"Status code is 500\", () => {\r",
+													"    response.to.have.status(500);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Validate response JSON schema\", () => {\r",
+													"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))\r",
+													"    response.to.have.jsonSchema(errorJsonSchema);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Code is 13\", () => {\r",
+													"   const code = pm.expect(response.json().code)\r",
+													"   code.to.eql(13);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Check error message\", () => {\r",
+													"   const message = pm.expect(response.json().message)\r",
+													"\r",
+													"   const expectedStrings = [\"cname0_validity\"]\r",
+													"   expectedStrings.forEach(string => {\r",
+													"       message.to.include(string)\r",
+													"   })\r",
+													"});\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"hosts\": [\r\n        {\r\n            \"ipList\": {\r\n                \"IPs\": [\r\n                    \"127.0.0.1\"\r\n                ]\r\n            },\r\n            \"metaInfo\": {\r\n                \"hostName\": \"add-host-0\",\r\n                \"os\": \"linux\",\r\n                \"platform\": \" ubuntu\",\r\n                \"platformFamily\": \"debiann\",\r\n                \"platformVersion\": \"20.044\",\r\n                \"kernelVersion\": \"5.15.0-139-genericc\"\r\n            },\r\n            \"uuid\": \"7e14ccc7-0891-460e-8e3b-79c8642c4f97\"\r\n        }\r\n    ]\r\n}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{HOST}}:{{PORT}}/{{apiV}}/upd-host-info",
+											"host": [
+												"{{HOST}}"
+											],
+											"port": "{{PORT}}",
+											"path": [
+												"{{apiV}}",
+												"upd-host-info"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[UPD-HOST-INFO] Ошибка при обновлении host,  пробел в начале названия platformFamily в metaInfo",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"\r",
+													"pm.test(\"Status code is 500\", () => {\r",
+													"    response.to.have.status(500);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Validate response JSON schema\", () => {\r",
+													"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))\r",
+													"    response.to.have.jsonSchema(errorJsonSchema);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Code is 13\", () => {\r",
+													"   const code = pm.expect(response.json().code)\r",
+													"   code.to.eql(13);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Check error message\", () => {\r",
+													"   const message = pm.expect(response.json().message)\r",
+													"\r",
+													"   const expectedStrings = [\"cname0_validity\"]\r",
+													"   expectedStrings.forEach(string => {\r",
+													"       message.to.include(string)\r",
+													"   })\r",
+													"});\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"hosts\": [\r\n        {\r\n            \"ipList\": {\r\n                \"IPs\": [\r\n                    \"127.0.0.1\"\r\n                ]\r\n            },\r\n            \"metaInfo\": {\r\n                \"hostName\": \"add-host-0\",\r\n                \"os\": \"linux\",\r\n                \"platform\": \"ubuntu\",\r\n                \"platformFamily\": \" debiann\",\r\n                \"platformVersion\": \"20.044\",\r\n                \"kernelVersion\": \"5.15.0-139-genericc\"\r\n            },\r\n            \"uuid\": \"7e14ccc7-0891-460e-8e3b-79c8642c4f97\"\r\n        }\r\n    ]\r\n}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{HOST}}:{{PORT}}/{{apiV}}/upd-host-info",
+											"host": [
+												"{{HOST}}"
+											],
+											"port": "{{PORT}}",
+											"path": [
+												"{{apiV}}",
+												"upd-host-info"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[UPD-HOST-INFO] Ошибка при обновлении host,  пробел в начале названия platformVersion в metaInfo",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"\r",
+													"pm.test(\"Status code is 500\", () => {\r",
+													"    response.to.have.status(500);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Validate response JSON schema\", () => {\r",
+													"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))\r",
+													"    response.to.have.jsonSchema(errorJsonSchema);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Code is 13\", () => {\r",
+													"   const code = pm.expect(response.json().code)\r",
+													"   code.to.eql(13);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Check error message\", () => {\r",
+													"   const message = pm.expect(response.json().message)\r",
+													"\r",
+													"   const expectedStrings = [\"cname0_validity\"]\r",
+													"   expectedStrings.forEach(string => {\r",
+													"       message.to.include(string)\r",
+													"   })\r",
+													"});\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"hosts\": [\r\n        {\r\n            \"ipList\": {\r\n                \"IPs\": [\r\n                    \"127.0.0.1\"\r\n                ]\r\n            },\r\n            \"metaInfo\": {\r\n                \"hostName\": \"add-host-0\",\r\n                \"os\": \"linux\",\r\n                \"platform\": \"ubuntu\",\r\n                \"platformFamily\": \"debiann\",\r\n                \"platformVersion\": \" 20.044\",\r\n                \"kernelVersion\": \"5.15.0-139-genericc\"\r\n            },\r\n            \"uuid\": \"7e14ccc7-0891-460e-8e3b-79c8642c4f97\"\r\n        }\r\n    ]\r\n}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{HOST}}:{{PORT}}/{{apiV}}/upd-host-info",
+											"host": [
+												"{{HOST}}"
+											],
+											"port": "{{PORT}}",
+											"path": [
+												"{{apiV}}",
+												"upd-host-info"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[UPD-HOST-INFO] Ошибка при обновлении host,  пробел в начале названия kernelVersion в metaInfo",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"\r",
+													"pm.test(\"Status code is 500\", () => {\r",
+													"    response.to.have.status(500);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Validate response JSON schema\", () => {\r",
+													"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))\r",
+													"    response.to.have.jsonSchema(errorJsonSchema);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Code is 13\", () => {\r",
+													"   const code = pm.expect(response.json().code)\r",
+													"   code.to.eql(13);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Check error message\", () => {\r",
+													"   const message = pm.expect(response.json().message)\r",
+													"\r",
+													"   const expectedStrings = [\"cname0_validity\"]\r",
+													"   expectedStrings.forEach(string => {\r",
+													"       message.to.include(string)\r",
+													"   })\r",
+													"});\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"hosts\": [\r\n        {\r\n            \"ipList\": {\r\n                \"IPs\": [\r\n                    \"127.0.0.1\"\r\n                ]\r\n            },\r\n            \"metaInfo\": {\r\n                \"hostName\": \"add-host-0\",\r\n                \"os\": \"linux\",\r\n                \"platform\": \"ubuntu\",\r\n                \"platformFamily\": \"debiann\",\r\n                \"platformVersion\": \"20.044\",\r\n                \"kernelVersion\": \" 5.15.0-139-genericc\"\r\n            },\r\n            \"uuid\": \"7e14ccc7-0891-460e-8e3b-79c8642c4f97\"\r\n        }\r\n    ]\r\n}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{HOST}}:{{PORT}}/{{apiV}}/upd-host-info",
+											"host": [
+												"{{HOST}}"
+											],
+											"port": "{{PORT}}",
+											"path": [
+												"{{apiV}}",
+												"upd-host-info"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[UPD-HOST-INFO] Ошибка при обновлении host,  пробел в конце названия platform в metaInfo",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"\r",
+													"pm.test(\"Status code is 500\", () => {\r",
+													"    response.to.have.status(500);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Validate response JSON schema\", () => {\r",
+													"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))\r",
+													"    response.to.have.jsonSchema(errorJsonSchema);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Code is 13\", () => {\r",
+													"   const code = pm.expect(response.json().code)\r",
+													"   code.to.eql(13);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Check error message\", () => {\r",
+													"   const message = pm.expect(response.json().message)\r",
+													"\r",
+													"   const expectedStrings = [\"cname0_validity\"]\r",
+													"   expectedStrings.forEach(string => {\r",
+													"       message.to.include(string)\r",
+													"   })\r",
+													"});\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"hosts\": [\r\n        {\r\n            \"ipList\": {\r\n                \"IPs\": [\r\n                    \"127.0.0.1\"\r\n                ]\r\n            },\r\n            \"metaInfo\": {\r\n                \"hostName\": \"add-host-0\",\r\n                \"os\": \"linux\",\r\n                \"platform\": \"ubuntu \",\r\n                \"platformFamily\": \"debiann\",\r\n                \"platformVersion\": \"20.044\",\r\n                \"kernelVersion\": \"5.15.0-139-genericc\"\r\n            },\r\n            \"uuid\": \"7e14ccc7-0891-460e-8e3b-79c8642c4f97\"\r\n        }\r\n    ]\r\n}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{HOST}}:{{PORT}}/{{apiV}}/upd-host-info",
+											"host": [
+												"{{HOST}}"
+											],
+											"port": "{{PORT}}",
+											"path": [
+												"{{apiV}}",
+												"upd-host-info"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[UPD-HOST-INFO] Ошибка при обновлении host,  пробел в конце названия platformFamily в metaInfo",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"\r",
+													"pm.test(\"Status code is 500\", () => {\r",
+													"    response.to.have.status(500);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Validate response JSON schema\", () => {\r",
+													"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))\r",
+													"    response.to.have.jsonSchema(errorJsonSchema);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Code is 13\", () => {\r",
+													"   const code = pm.expect(response.json().code)\r",
+													"   code.to.eql(13);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Check error message\", () => {\r",
+													"   const message = pm.expect(response.json().message)\r",
+													"\r",
+													"   const expectedStrings = [\"cname0_validity\"]\r",
+													"   expectedStrings.forEach(string => {\r",
+													"       message.to.include(string)\r",
+													"   })\r",
+													"});\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"hosts\": [\r\n        {\r\n            \"ipList\": {\r\n                \"IPs\": [\r\n                    \"127.0.0.1\"\r\n                ]\r\n            },\r\n            \"metaInfo\": {\r\n                \"hostName\": \"add-host-0\",\r\n                \"os\": \"linux\",\r\n                \"platform\": \"ubuntu\",\r\n                \"platformFamily\": \"debiann \",\r\n                \"platformVersion\": \"20.044\",\r\n                \"kernelVersion\": \"5.15.0-139-genericc\"\r\n            },\r\n            \"uuid\": \"7e14ccc7-0891-460e-8e3b-79c8642c4f97\"\r\n        }\r\n    ]\r\n}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{HOST}}:{{PORT}}/{{apiV}}/upd-host-info",
+											"host": [
+												"{{HOST}}"
+											],
+											"port": "{{PORT}}",
+											"path": [
+												"{{apiV}}",
+												"upd-host-info"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[UPD-HOST-INFO] Ошибка при обновлении host,  пробел в конце названия platformVersion в metaInfo",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"\r",
+													"pm.test(\"Status code is 500\", () => {\r",
+													"    response.to.have.status(500);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Validate response JSON schema\", () => {\r",
+													"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))\r",
+													"    response.to.have.jsonSchema(errorJsonSchema);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Code is 13\", () => {\r",
+													"   const code = pm.expect(response.json().code)\r",
+													"   code.to.eql(13);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Check error message\", () => {\r",
+													"   const message = pm.expect(response.json().message)\r",
+													"\r",
+													"   const expectedStrings = [\"cname0_validity\"]\r",
+													"   expectedStrings.forEach(string => {\r",
+													"       message.to.include(string)\r",
+													"   })\r",
+													"});\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"hosts\": [\r\n        {\r\n            \"ipList\": {\r\n                \"IPs\": [\r\n                    \"127.0.0.1\"\r\n                ]\r\n            },\r\n            \"metaInfo\": {\r\n                \"hostName\": \"add-host-0\",\r\n                \"os\": \"linux\",\r\n                \"platform\": \"ubuntu\",\r\n                \"platformFamily\": \"debiann\",\r\n                \"platformVersion\": \"20.044 \",\r\n                \"kernelVersion\": \"5.15.0-139-genericc\"\r\n            },\r\n            \"uuid\": \"7e14ccc7-0891-460e-8e3b-79c8642c4f97\"\r\n        }\r\n    ]\r\n}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{HOST}}:{{PORT}}/{{apiV}}/upd-host-info",
+											"host": [
+												"{{HOST}}"
+											],
+											"port": "{{PORT}}",
+											"path": [
+												"{{apiV}}",
+												"upd-host-info"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[UPD-HOST-INFO] Ошибка при обновлении host,  пробел в конце названия kernelVersion в metaInfo",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"\r",
+													"pm.test(\"Status code is 500\", () => {\r",
+													"    response.to.have.status(500);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Validate response JSON schema\", () => {\r",
+													"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))\r",
+													"    response.to.have.jsonSchema(errorJsonSchema);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Code is 13\", () => {\r",
+													"   const code = pm.expect(response.json().code)\r",
+													"   code.to.eql(13);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Check error message\", () => {\r",
+													"   const message = pm.expect(response.json().message)\r",
+													"\r",
+													"   const expectedStrings = [\"cname0_validity\"]\r",
+													"   expectedStrings.forEach(string => {\r",
+													"       message.to.include(string)\r",
+													"   })\r",
+													"});\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"hosts\": [\r\n        {\r\n            \"ipList\": {\r\n                \"IPs\": [\r\n                    \"127.0.0.1\"\r\n                ]\r\n            },\r\n            \"metaInfo\": {\r\n                \"hostName\": \"add-host-0\",\r\n                \"os\": \"linux\",\r\n                \"platform\": \"ubuntu\",\r\n                \"platformFamily\": \"debiann\",\r\n                \"platformVersion\": \"20.044\",\r\n                \"kernelVersion\": \"5.15.0-139-genericc \"\r\n            },\r\n            \"uuid\": \"7e14ccc7-0891-460e-8e3b-79c8642c4f97\"\r\n        }\r\n    ]\r\n}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{HOST}}:{{PORT}}/{{apiV}}/upd-host-info",
+											"host": [
+												"{{HOST}}"
+											],
+											"port": "{{PORT}}",
+											"path": [
+												"{{apiV}}",
+												"upd-host-info"
 											]
 										}
 									},
@@ -41247,6 +43535,53 @@
 									"path": [
 										"{{apiV}}",
 										"sync"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "[UPD-HOST-INFO] hosts Update info",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Body is empty\", () => {\r",
+											"    pm.expect(pm.response.json()).to.be.empty\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"hosts\": [\r\n        {\r\n            \"ipList\": {\r\n                \"IPs\": [\r\n                    \"::1\",\r\n                    \"127.0.0.1\"\r\n                ]\r\n            },\r\n            \"metaInfo\": {\r\n                \"hostName\": \"add-host-0\",\r\n                \"os\": \"linux\",\r\n                \"platform\": \"ubuntu\",\r\n                \"platformFamily\": \"debiann\",\r\n                \"platformVersion\": \"20.044\",\r\n                \"kernelVersion\": \"5.15.0-139-genericc\"\r\n            },\r\n            \"uuid\": \"08ff8294-4366-4c76-9f1c-06846cc3cdca\"\r\n        }\r\n    ]\r\n}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{HOST}}:{{PORT}}/{{apiV}}/upd-host-info",
+									"host": [
+										"{{HOST}}"
+									],
+									"port": "{{PORT}}",
+									"path": [
+										"{{apiV}}",
+										"upd-host-info"
 									]
 								}
 							},
