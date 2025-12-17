@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "676fe5d5-d0b3-4e9e-9b0e-dcde4d367d69",
-		"name": "SGroups (api tests)",
+		"_postman_id": "a1a29fa0-1af4-45de-b405-1c8f57d7a901",
+		"name": "SGroups (api tests w ipset-upd)",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "16473884"
 	},
@@ -1627,7 +1627,7 @@
 									"});",
 									"",
 									"pm.test(\"check hosts\", () => {",
-									"    const hosts = pm.response.json().hosts[0].host",
+									"    const hosts = pm.response.json().hosts[0]",
 									"",
 									"    pm.expect(hosts.name).to.eql(\"host-1\")",
 									"    pm.expect(hosts.uuid).to.eql(\"7e14ccc7-0891-460e-8e3b-79c8642c4f97\")",
@@ -1715,9 +1715,9 @@
 									"    pm.expect(hostsItems).to.be.not.empty;",
 									"",
 									"    hostsItems.forEach(host => {",
-									"        pm.expect(host.host.uuid).to.eql(testData[host.host.name][0]);",
-									"        pm.expect(host.host.sgName).to.eql(testData[host.host.name][1]);",
-									"        pm.expect(host.host.ipList.IPs).to.eql(testData[host.host.name][2]);",
+									"        pm.expect(host.uuid).to.eql(testData[host.name][0]);",
+									"        pm.expect(host.sgName).to.eql(testData[host.name][1]);",
+									"        pm.expect(host.ipList.IPs).to.eql(testData[host.name][2]);",
 									"    });",
 									"});",
 									"",
@@ -1852,7 +1852,7 @@
 									"});",
 									"",
 									"pm.test(\"check hosts\", () => {",
-									"    const hosts = pm.response.json().hosts[0].host",
+									"    const hosts = pm.response.json().hosts[0]",
 									"",
 									"    pm.expect(hosts.name).to.eql(\"host-4\");",
 									"    pm.expect(hosts.uuid).to.eql(\"37310ec0-a294-4242-b458-3c63c3fa8665\");",
@@ -1913,19 +1913,29 @@
 								"exec": [
 									"const response = pm.response;",
 									"",
-									"pm.test(\"Status code is 200\", () => {",
-									"    response.to.have.status(200);",
+									"pm.test(\"Status code is 500\", () => {",
+									"    response.to.have.status(500);",
 									"});",
 									"",
 									"pm.test(\"Validate response JSON schema\", () => {",
-									"    const hostsJsonSchema = JSON.parse(pm.variables.get(\"hostsResponseJsonSchema\"))",
-									"    response.to.have.jsonSchema(hostsJsonSchema);",
+									"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))",
+									"    response.to.have.jsonSchema(errorJsonSchema);",
 									"});",
 									"",
-									"pm.test(\"Hosts array size is 1\", () => {",
-									"   const hostsArrayLength = pm.expect(response.json().hosts.length)",
-									"   hostsArrayLength.to.eql(1);",
+									"pm.test(\"Code is 13\", () => {",
+									"   const code = pm.expect(response.json().code)",
+									"   code.to.eql(13);",
 									"});",
+									"",
+									"pm.test(\"Check error message\", () => {",
+									"   const message = pm.expect(response.json().message)",
+									"",
+									"   const expectedStrings = [\"invalid UUID length\"]",
+									"   expectedStrings.forEach(string => {",
+									"       message.to.include(string)",
+									"   })",
+									"});",
+									"",
 									""
 								],
 								"type": "text/javascript",
@@ -2170,7 +2180,7 @@
 									"});",
 									"",
 									"pm.test(\"check hosts\", () => {",
-									"    const hosts = pm.response.json().hosts[0].host",
+									"    const hosts = pm.response.json().hosts[0]",
 									"",
 									"    pm.expect(hosts.name).to.eql(\"host-0\")",
 									"    pm.expect(hosts.uuid).to.eql(\"eb5b7e27-d869-4516-827a-b353c1b35c3c\")",
@@ -2246,7 +2256,7 @@
 									"});",
 									"",
 									"pm.test(\"check hosts\", () => {",
-									"    const hosts = pm.response.json().hosts[0].host",
+									"    const hosts = pm.response.json().hosts[0]",
 									"",
 									"    pm.expect(hosts.name).to.eql(\"host-1\");",
 									"    pm.expect(hosts.uuid).to.eql(\"7e14ccc7-0891-460e-8e3b-79c8642c4f97\");",
@@ -2783,7 +2793,7 @@
 									"});",
 									"",
 									"pm.test(\"check hosts\", () => {",
-									"    const hosts = pm.response.json().hosts[0].host",
+									"    const hosts = pm.response.json().hosts[0]",
 									"",
 									"    pm.expect(hosts.name).to.eql(\"host-2\");",
 									"    pm.expect(hosts.uuid).to.eql(\"cbafd447-32e7-4449-b594-3c6699bda8b6\");",
@@ -2871,9 +2881,9 @@
 									"    pm.expect(hostsItems).to.be.not.empty;",
 									"",
 									"    hostsItems.forEach(host => {",
-									"        pm.expect(host.host.uuid).to.eql(testData[host.host.name][0]);",
-									"        pm.expect(host.host.sgName).to.eql(testData[host.host.name][1]);",
-									"        pm.expect(host.host.ipList.IPs).to.eql(testData[host.host.name][2]);",
+									"        pm.expect(host.uuid).to.eql(testData[host.name][0]);",
+									"        pm.expect(host.sgName).to.eql(testData[host.name][1]);",
+									"        pm.expect(host.ipList.IPs).to.eql(testData[host.name][2]);",
 									"    });",
 									"});",
 									"",
@@ -2952,7 +2962,7 @@
 									"});",
 									"",
 									"pm.test(\"check hosts\", () => {",
-									"    const hosts = pm.response.json().hosts[0].host",
+									"    const hosts = pm.response.json().hosts[0]",
 									"",
 									"    pm.expect(hosts.name).to.eql(\"host-2\");",
 									"    pm.expect(hosts.uuid).to.eql(\"cbafd447-32e7-4449-b594-3c6699bda8b6\");",
@@ -18822,6 +18832,935 @@
 							]
 						},
 						{
+							"name": "upd host ipset",
+							"item": [
+								{
+									"name": "[UPD-HOST-IPSET] Ошибка при обновлении IPList у host, невалидный ipv4",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;",
+													"",
+													"pm.test(\"Status code is 400\", () => {",
+													"    response.to.have.status(400);",
+													"});",
+													"",
+													"pm.test(\"Validate response JSON schema\", () => {",
+													"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))",
+													"    response.to.have.jsonSchema(errorJsonSchema);",
+													"});",
+													"",
+													"pm.test(\"Code is 3\", () => {",
+													"   const code = pm.expect(response.json().code)",
+													"   code.to.eql(3);",
+													"});",
+													"",
+													"pm.test(\"Check error message\", () => {",
+													"   const message = pm.expect(response.json().message)",
+													"",
+													"   const expectedStrings = [\"IPv4 field has value >255\"]",
+													"   expectedStrings.forEach(string => {",
+													"       message.to.include(string)",
+													"   })",
+													"});",
+													"",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"hosts\": [\n    {\n      \"ipList\": {\n        \"IPs\": [\n          \"255.255.255.256\"\n        ]\n      },\n      \"uuid\": \"37310ec0-a294-4242-b458-3c63c3fa8665\"\n    }\n  ]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{HOST}}:{{PORT}}/{{apiV}}/upd-host-ipset",
+											"host": [
+												"{{HOST}}"
+											],
+											"port": "{{PORT}}",
+											"path": [
+												"{{apiV}}",
+												"upd-host-ipset"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[UPD-HOST-IPSET] Ошибка при обновлении IPList у host, один из ipv4 невалидный",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;",
+													"",
+													"pm.test(\"Status code is 400\", () => {",
+													"    response.to.have.status(400);",
+													"});",
+													"",
+													"pm.test(\"Validate response JSON schema\", () => {",
+													"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))",
+													"    response.to.have.jsonSchema(errorJsonSchema);",
+													"});",
+													"",
+													"pm.test(\"Code is 3\", () => {",
+													"   const code = pm.expect(response.json().code)",
+													"   code.to.eql(3);",
+													"});",
+													"",
+													"pm.test(\"Check error message\", () => {",
+													"   const message = pm.expect(response.json().message)",
+													"",
+													"   const expectedStrings = [\"IPv4 field has value >255\"]",
+													"   expectedStrings.forEach(string => {",
+													"       message.to.include(string)",
+													"   })",
+													"});",
+													"",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"hosts\": [\n    {\n      \"ipList\": {\n        \"IPs\": [\n          \"255.255.255.256\"\n        ]\n      },\n      \"uuid\": \"37310ec0-a294-4242-b458-3c63c3fa8665\"\n    }\n  ]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{HOST}}:{{PORT}}/{{apiV}}/upd-host-ipset",
+											"host": [
+												"{{HOST}}"
+											],
+											"port": "{{PORT}}",
+											"path": [
+												"{{apiV}}",
+												"upd-host-ipset"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[UPD-HOST-IPSET] Ошибка при обновлении IPList у host, IPv6 невалидный",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;",
+													"",
+													"pm.test(\"Status code is 400\", () => {",
+													"    response.to.have.status(400);",
+													"});",
+													"",
+													"pm.test(\"Validate response JSON schema\", () => {",
+													"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))",
+													"    response.to.have.jsonSchema(errorJsonSchema);",
+													"});",
+													"",
+													"pm.test(\"Code is 3\", () => {",
+													"   const code = pm.expect(response.json().code)",
+													"   code.to.eql(3);",
+													"});",
+													"",
+													"pm.test(\"Check error message\", () => {",
+													"   const message = pm.expect(response.json().message)",
+													"",
+													"   const expectedStrings = [\"ach colon-separated field must have at least one digit\"]",
+													"   expectedStrings.forEach(string => {",
+													"       message.to.include(string)",
+													"   })",
+													"});",
+													"",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"hosts\": [\n    {\n      \"ipList\": {\n        \"IPs\": [\n          \":1\"\n        ]\n      },\n      \"uuid\": \"37310ec0-a294-4242-b458-3c63c3fa8665\"\n    }\n  ]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{HOST}}:{{PORT}}/{{apiV}}/upd-host-ipset",
+											"host": [
+												"{{HOST}}"
+											],
+											"port": "{{PORT}}",
+											"path": [
+												"{{apiV}}",
+												"upd-host-ipset"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[UPD-HOST-IPSET] Ошибка при обновлении IPList у host, один из IPv6 невалидный",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;",
+													"",
+													"pm.test(\"Status code is 400\", () => {",
+													"    response.to.have.status(400);",
+													"});",
+													"",
+													"pm.test(\"Validate response JSON schema\", () => {",
+													"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))",
+													"    response.to.have.jsonSchema(errorJsonSchema);",
+													"});",
+													"",
+													"pm.test(\"Code is 3\", () => {",
+													"   const code = pm.expect(response.json().code)",
+													"   code.to.eql(3);",
+													"});",
+													"",
+													"pm.test(\"Check error message\", () => {",
+													"   const message = pm.expect(response.json().message)",
+													"",
+													"   const expectedStrings = [\"each colon-separated field must have at least one digit\"]",
+													"   expectedStrings.forEach(string => {",
+													"       message.to.include(string)",
+													"   })",
+													"});",
+													"",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"hosts\": [\n    {\n      \"ipList\": {\n        \"IPs\": [\n          \"::1\", \"2001:0db8:85a3:0000:0000:8a2e:0370:GGGG\"\n        ]\n      },\n      \"uuid\": \"37310ec0-a294-4242-b458-3c63c3fa8665\"\n    }\n  ]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{HOST}}:{{PORT}}/{{apiV}}/upd-host-ipset",
+											"host": [
+												"{{HOST}}"
+											],
+											"port": "{{PORT}}",
+											"path": [
+												"{{apiV}}",
+												"upd-host-ipset"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[UPD-HOST-IPSET] Ошибка при обновлении IPList у host, IPv4 с подсетью",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;",
+													"",
+													"pm.test(\"Status code is 400\", () => {",
+													"    response.to.have.status(400);",
+													"});",
+													"",
+													"pm.test(\"Validate response JSON schema\", () => {",
+													"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))",
+													"    response.to.have.jsonSchema(errorJsonSchema);",
+													"});",
+													"",
+													"pm.test(\"Code is 3\", () => {",
+													"   const code = pm.expect(response.json().code)",
+													"   code.to.eql(3);",
+													"});",
+													"",
+													"pm.test(\"Check error message\", () => {",
+													"   const message = pm.expect(response.json().message)",
+													"",
+													"   const expectedStrings = [\"unexpected character\"]",
+													"   expectedStrings.forEach(string => {",
+													"       message.to.include(string)",
+													"   })",
+													"});",
+													"",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"hosts\": [\n    {\n      \"ipList\": {\n        \"IPs\": [\n          \"1.1.1.1/32\"\n        ]\n      },\n      \"uuid\": \"37310ec0-a294-4242-b458-3c63c3fa8665\"\n    }\n  ]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{HOST}}:{{PORT}}/{{apiV}}/upd-host-ipset",
+											"host": [
+												"{{HOST}}"
+											],
+											"port": "{{PORT}}",
+											"path": [
+												"{{apiV}}",
+												"upd-host-ipset"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[UPD-HOST-IPSET] Ошибка при обновлении IPList у host, IPv6 с подсетью",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;",
+													"",
+													"pm.test(\"Status code is 400\", () => {",
+													"    response.to.have.status(400);",
+													"});",
+													"",
+													"pm.test(\"Validate response JSON schema\", () => {",
+													"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))",
+													"    response.to.have.jsonSchema(errorJsonSchema);",
+													"});",
+													"",
+													"pm.test(\"Code is 3\", () => {",
+													"   const code = pm.expect(response.json().code)",
+													"   code.to.eql(3);",
+													"});",
+													"",
+													"pm.test(\"Check error message\", () => {",
+													"   const message = pm.expect(response.json().message)",
+													"",
+													"   const expectedStrings = [\"unexpected character\"]",
+													"   expectedStrings.forEach(string => {",
+													"       message.to.include(string)",
+													"   })",
+													"});",
+													"",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"hosts\": [\n    {\n      \"ipList\": {\n        \"IPs\": [\n          \"::1/128\"\n        ]\n      },\n      \"uuid\": \"37310ec0-a294-4242-b458-3c63c3fa8665\"\n    }\n  ]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{HOST}}:{{PORT}}/{{apiV}}/upd-host-ipset",
+											"host": [
+												"{{HOST}}"
+											],
+											"port": "{{PORT}}",
+											"path": [
+												"{{apiV}}",
+												"upd-host-ipset"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[UPD-HOST-IPSET] Ошибка при обновлении IPList у host, текст в iplist",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;",
+													"",
+													"pm.test(\"Status code is 400\", () => {",
+													"    response.to.have.status(400);",
+													"});",
+													"",
+													"pm.test(\"Validate response JSON schema\", () => {",
+													"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))",
+													"    response.to.have.jsonSchema(errorJsonSchema);",
+													"});",
+													"",
+													"pm.test(\"Code is 3\", () => {",
+													"   const code = pm.expect(response.json().code)",
+													"   code.to.eql(3);",
+													"});",
+													"",
+													"pm.test(\"Check error message\", () => {",
+													"   const message = pm.expect(response.json().message)",
+													"",
+													"   const expectedStrings = [\"unexpected character\"]",
+													"   expectedStrings.forEach(string => {",
+													"       message.to.include(string)",
+													"   })",
+													"});",
+													"",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"hosts\": [\n    {\n      \"ipList\": {\n        \"IPs\": [\n          \"one.two.three.four\"\n        ]\n      },\n      \"uuid\": \"37310ec0-a294-4242-b458-3c63c3fa8665\"\n    }\n  ]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{HOST}}:{{PORT}}/{{apiV}}/upd-host-ipset",
+											"host": [
+												"{{HOST}}"
+											],
+											"port": "{{PORT}}",
+											"path": [
+												"{{apiV}}",
+												"upd-host-ipset"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[UPD-HOST-IPSET] Ошибка при обновлении IPList у host, пустая строка в IPList",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;",
+													"",
+													"pm.test(\"Status code is 400\", () => {",
+													"    response.to.have.status(400);",
+													"});",
+													"",
+													"pm.test(\"Validate response JSON schema\", () => {",
+													"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))",
+													"    response.to.have.jsonSchema(errorJsonSchema);",
+													"});",
+													"",
+													"pm.test(\"Code is 3\", () => {",
+													"   const code = pm.expect(response.json().code)",
+													"   code.to.eql(3);",
+													"});",
+													"",
+													"pm.test(\"Check error message\", () => {",
+													"   const message = pm.expect(response.json().message)",
+													"",
+													"   const expectedStrings = [\"unable to parse IP\"]",
+													"   expectedStrings.forEach(string => {",
+													"       message.to.include(string)",
+													"   })",
+													"});",
+													"",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"hosts\": [\n    {\n      \"ipList\": {\n        \"IPs\": [\n          \"\"\n        ]\n      },\n      \"uuid\": \"37310ec0-a294-4242-b458-3c63c3fa8665\"\n    }\n  ]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{HOST}}:{{PORT}}/{{apiV}}/upd-host-ipset",
+											"host": [
+												"{{HOST}}"
+											],
+											"port": "{{PORT}}",
+											"path": [
+												"{{apiV}}",
+												"upd-host-ipset"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[UPD-HOST-IPSET] Ошибка при обновлении IPList у host, host с указанным uuid не существует",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;",
+													"",
+													"pm.test(\"Status code is 404\", () => {",
+													"    response.to.have.status(404);",
+													"});",
+													"",
+													"pm.test(\"Validate response JSON schema\", () => {",
+													"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))",
+													"    response.to.have.jsonSchema(errorJsonSchema);",
+													"});",
+													"",
+													"pm.test(\"Code is 5\", () => {",
+													"   const code = pm.expect(response.json().code)",
+													"   code.to.eql(5);",
+													"});",
+													"",
+													"pm.test(\"Check error message\", () => {",
+													"   const message = pm.expect(response.json().message)",
+													"",
+													"   const expectedStrings = [\"does not exist\", \"host not registered\"]",
+													"   expectedStrings.forEach(string => {",
+													"       message.to.include(string)",
+													"   })",
+													"});",
+													"",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"hosts\": [\n    {\n      \"ipList\": {\n        \"IPs\": [\n          \"1.1.1.1\"\n        ]\n      },\n      \"uuid\": \"573097fc-c821-44b4-86ad-d5f5b02d9fc1\"\n    }\n  ]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{HOST}}:{{PORT}}/{{apiV}}/upd-host-ipset",
+											"host": [
+												"{{HOST}}"
+											],
+											"port": "{{PORT}}",
+											"path": [
+												"{{apiV}}",
+												"upd-host-ipset"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[UPD-HOST-IPSET] Ошибка при обновлении IPList у host, uuid пуст",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;",
+													"",
+													"pm.test(\"Status code is 400\", () => {",
+													"    response.to.have.status(400);",
+													"});",
+													"",
+													"pm.test(\"Validate response JSON schema\", () => {",
+													"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))",
+													"    response.to.have.jsonSchema(errorJsonSchema);",
+													"});",
+													"",
+													"pm.test(\"Code is 3\", () => {",
+													"   const code = pm.expect(response.json().code)",
+													"   code.to.eql(3);",
+													"});",
+													"",
+													"pm.test(\"Check error message\", () => {",
+													"   const message = pm.expect(response.json().message)",
+													"",
+													"   const expectedStrings = [\"invalid UUID length\"]",
+													"   expectedStrings.forEach(string => {",
+													"       message.to.include(string)",
+													"   })",
+													"});",
+													"",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"hosts\": [\n    {\n      \"ipList\": {\n        \"IPs\": [\n          \"1.1.1.1\"\n        ]\n      },\n      \"uuid\": \"\"\n    }\n  ]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{HOST}}:{{PORT}}/{{apiV}}/upd-host-ipset",
+											"host": [
+												"{{HOST}}"
+											],
+											"port": "{{PORT}}",
+											"path": [
+												"{{apiV}}",
+												"upd-host-ipset"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[UPD-HOST-IPSET] Ошибка при обновлении IPList у host, длинный uuid",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;",
+													"",
+													"pm.test(\"Status code is 400\", () => {",
+													"    response.to.have.status(400);",
+													"});",
+													"",
+													"pm.test(\"Validate response JSON schema\", () => {",
+													"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))",
+													"    response.to.have.jsonSchema(errorJsonSchema);",
+													"});",
+													"",
+													"pm.test(\"Code is 3\", () => {",
+													"   const code = pm.expect(response.json().code)",
+													"   code.to.eql(3);",
+													"});",
+													"",
+													"pm.test(\"Check error message\", () => {",
+													"   const message = pm.expect(response.json().message)",
+													"",
+													"   const expectedStrings = [\"invalid UUID length\"]",
+													"   expectedStrings.forEach(string => {",
+													"       message.to.include(string)",
+													"   })",
+													"});",
+													"",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"hosts\": [\n    {\n      \"ipList\": {\n        \"IPs\": [\n          \"1.1.1.1\"\n        ]\n      },\n      \"uuid\": \"573097fc-c821-44b4-86ad-d5f5b02d9fc19\"\n    }\n  ]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{HOST}}:{{PORT}}/{{apiV}}/upd-host-ipset",
+											"host": [
+												"{{HOST}}"
+											],
+											"port": "{{PORT}}",
+											"path": [
+												"{{apiV}}",
+												"upd-host-ipset"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[UPD-HOST-IPSET] Ошибка при обновлении IPList у host, короткий uuid",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;",
+													"",
+													"pm.test(\"Status code is 400\", () => {",
+													"    response.to.have.status(400);",
+													"});",
+													"",
+													"pm.test(\"Validate response JSON schema\", () => {",
+													"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))",
+													"    response.to.have.jsonSchema(errorJsonSchema);",
+													"});",
+													"",
+													"pm.test(\"Code is 3\", () => {",
+													"   const code = pm.expect(response.json().code)",
+													"   code.to.eql(3);",
+													"});",
+													"",
+													"pm.test(\"Check error message\", () => {",
+													"   const message = pm.expect(response.json().message)",
+													"",
+													"   const expectedStrings = [\"invalid UUID length\"]",
+													"   expectedStrings.forEach(string => {",
+													"       message.to.include(string)",
+													"   })",
+													"});",
+													"",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"hosts\": [\n    {\n      \"ipList\": {\n        \"IPs\": [\n          \"1.1.1.1\"\n        ]\n      },\n      \"uuid\": \"573097fc-c821-44b4-86ad-d5f5b02d99\"\n    }\n  ]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{HOST}}:{{PORT}}/{{apiV}}/upd-host-ipset",
+											"host": [
+												"{{HOST}}"
+											],
+											"port": "{{PORT}}",
+											"path": [
+												"{{apiV}}",
+												"upd-host-ipset"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[UPD-HOST-IPSET] Ошибка при обновлении IPList у host, uuid отсутствует как параметр",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;",
+													"",
+													"pm.test(\"Status code is 400\", () => {",
+													"    response.to.have.status(400);",
+													"});",
+													"",
+													"pm.test(\"Validate response JSON schema\", () => {",
+													"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))",
+													"    response.to.have.jsonSchema(errorJsonSchema);",
+													"});",
+													"",
+													"pm.test(\"Code is 3\", () => {",
+													"   const code = pm.expect(response.json().code)",
+													"   code.to.eql(3);",
+													"});",
+													"",
+													"pm.test(\"Check error message\", () => {",
+													"   const message = pm.expect(response.json().message)",
+													"",
+													"   const expectedStrings = [\"invalid UUID length\"]",
+													"   expectedStrings.forEach(string => {",
+													"       message.to.include(string)",
+													"   })",
+													"});",
+													"",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"hosts\": [\n    {\n      \"ipList\": {\n        \"IPs\": [\n          \"1.1.1.1\"\n        ]\n      }\n    }\n  ]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{HOST}}:{{PORT}}/{{apiV}}/upd-host-ipset",
+											"host": [
+												"{{HOST}}"
+											],
+											"port": "{{PORT}}",
+											"path": [
+												"{{apiV}}",
+												"upd-host-ipset"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[UPD-HOST-IPSET] Ошибка при обновлении IPList у host, полностью невалидное тело",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;",
+													"",
+													"pm.test(\"Status code is 400\", () => {",
+													"    response.to.have.status(400);",
+													"});",
+													"",
+													"pm.test(\"Validate response JSON schema\", () => {",
+													"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))",
+													"    response.to.have.jsonSchema(errorJsonSchema);",
+													"});",
+													"",
+													"pm.test(\"Code is 3\", () => {",
+													"   const code = pm.expect(response.json().code)",
+													"   code.to.eql(3);",
+													"});",
+													"",
+													"pm.test(\"Check error message\", () => {",
+													"   const message = pm.expect(response.json().message)",
+													"",
+													"   const expectedStrings = [\"unknown field\"]",
+													"   expectedStrings.forEach(string => {",
+													"       message.to.include(string)",
+													"   })",
+													"});",
+													"",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"haah\": \"hehe\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{HOST}}:{{PORT}}/{{apiV}}/upd-host-ipset",
+											"host": [
+												"{{HOST}}"
+											],
+											"port": "{{PORT}}",
+											"path": [
+												"{{apiV}}",
+												"upd-host-ipset"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
 							"name": "upd host info",
 							"item": [
 								{
@@ -28812,6 +29751,77 @@
 										"body": {
 											"mode": "raw",
 											"raw": "{\r\n    \"svcFqdnRules\": {\r\n        \"rules\": [\r\n            {\r\n                \"name\": \"add-svc-fqdn-0\",\r\n                \"FQDN\": \"google.com\",\r\n                \"action\": \"ACCEPT\",\r\n                \"logs\": true,\r\n                \"ports\": [\r\n                    {\r\n                        \"d\": \"\",\r\n                        \"s\": \"100\"\r\n                    },\r\n                    {\r\n                        \r\n                        \"d\": \"\",\r\n                        \"s\": \"1000\"\r\n                    \r\n                    }\r\n                ],\r\n                \"priority\": {\r\n                    \"some\": 32767\r\n                },\r\n                \"trace\": true,\r\n                \"svcFrom\": \"svc-0\",\r\n                \"transport\": \"\"\r\n            }\r\n        ]\r\n    },\r\n    \"syncOp\": \"Upsert\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{HOST}}:{{PORT}}/{{apiV}}/sync",
+											"host": [
+												"{{HOST}}"
+											],
+											"port": "{{PORT}}",
+											"path": [
+												"{{apiV}}",
+												"sync"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "rule ie-svc-cidr",
+							"item": [
+								{
+									"name": "[RULE-IE-SVC-CIDR] Ошибка при Rules Upsert, name пуст Copy",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"\r",
+													"pm.test(\"Status code is 500\", () => {\r",
+													"    response.to.have.status(500);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Validate response JSON schema\", () => {\r",
+													"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))\r",
+													"    response.to.have.jsonSchema(errorJsonSchema);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Code is 13\", () => {\r",
+													"   const code = pm.expect(response.json().code)\r",
+													"   code.to.eql(13);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Check error message\", () => {\r",
+													"   const message = pm.expect(response.json().message)\r",
+													"\r",
+													"   const expectedStrings = [\"ERROR\", \"cname_validity\"]\r",
+													"   expectedStrings.forEach(string => {\r",
+													"       message.to.include(string)\r",
+													"   })\r",
+													"});\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"ieCidrSvcRules\": {\r\n        \"rules\": [\r\n            {\r\n                \"CIDR\": \"string\",\r\n                \"action\": \"UNDEF\",\r\n                \"logs\": true,\r\n                \"name\": \"string\",\r\n                \"ports\": [\r\n                    {\r\n                        \"d\": \"string\",\r\n                        \"s\": \"string\"\r\n                    }\r\n                ],\r\n                \"priority\": {\r\n                    \"some\": 0\r\n                },\r\n                \"svc\": \"string\",\r\n                \"trace\": true,\r\n                \"traffic\": \"Undef\",\r\n                \"transport\": \"TCP\"\r\n            }\r\n        ]\r\n    },\r\n    \"syncOp\": \"Upsert\"\r\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -43541,6 +44551,53 @@
 							"response": []
 						},
 						{
+							"name": "[UPD-HOST-IPSET] host update IPList",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", () => {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Body is empty\", () => {",
+											"    pm.expect(pm.response.json()).to.be.empty",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"hosts\": [\n    {\n      \"ipList\": {\n        \"IPs\": [\n          \"192.168.1.1\"\n        ]\n      },\n      \"uuid\": \"eb5b7e27-d869-4516-827a-b353c1b35c3c\"\n    }\n  ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{HOST}}:{{PORT}}/{{apiV}}/upd-host-ipset",
+									"host": [
+										"{{HOST}}"
+									],
+									"port": "{{PORT}}",
+									"path": [
+										"{{apiV}}",
+										"upd-host-ipset"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "[UPD-HOST-INFO] hosts Update info",
 							"event": [
 								{
@@ -43566,7 +44623,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"hosts\": [\r\n        {\r\n            \"ipList\": {\r\n                \"IPs\": [\r\n                    \"::1\",\r\n                    \"127.0.0.1\"\r\n                ]\r\n            },\r\n            \"metaInfo\": {\r\n                \"hostName\": \"add-host-0\",\r\n                \"os\": \"linux\",\r\n                \"platform\": \"ubuntu\",\r\n                \"platformFamily\": \"debiann\",\r\n                \"platformVersion\": \"20.044\",\r\n                \"kernelVersion\": \"5.15.0-139-genericc\"\r\n            },\r\n            \"uuid\": \"08ff8294-4366-4c76-9f1c-06846cc3cdca\"\r\n        }\r\n    ]\r\n}\r\n}",
+									"raw": "{\r\n    \"hosts\": [\r\n        {\r\n            \"ipList\": {\r\n                \"IPs\": [\r\n                    \"::1\",\r\n                    \"127.0.0.1\"\r\n                ]\r\n            },\r\n            \"metaInfo\": {\r\n                \"hostName\": \"add-host-0\",\r\n                \"os\": \"linux\",\r\n                \"platform\": \"ubuntu\",\r\n                \"platformFamily\": \"debiann\",\r\n                \"platformVersion\": \"20.044\",\r\n                \"kernelVersion\": \"5.15.0-139-genericc\"\r\n            },\r\n            \"uuid\": \"cbafd447-32e7-4449-b594-3c6699bda8b6\"\r\n        }\r\n    ]\r\n}\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -45436,6 +46493,1858 @@
 			"description": "Внутри находятся три папки для тестирования запроса /v1/sync  \nВажно: необходимо запускать их в порядке:  \n1\\. networks  \n2\\. security-groups  \n3\\. rules  \nЕсли запустить в другом порядке или какие-то пропустить, то работать не будет"
 		},
 		{
+			"name": "POST /v1/list-ie-cidr-svc-rules",
+			"item": [
+				{
+					"name": "[RULE-IE-CIDR-SVC] Поиск всех правил",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response;",
+									"",
+									"pm.test(\"Status code is 200\", () => {",
+									"    response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Validate response JSON schema\", () => {",
+									"    const RulesJsonSchema = JSON.parse(pm.variables.get(\"ruleIeCidrSvcResponseJsonSchema\"))",
+									"    response.to.have.jsonSchema(RulesJsonSchema);",
+									"});",
+									"",
+									"pm.test(\"Rules array size is 5\", () => {",
+									"   const hostsArrayLength = pm.expect(response.json().rules.length)",
+									"   hostsArrayLength.to.eql(5);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"none\": {}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}:{{PORT}}/{{apiV}}/list-ie-cidr-svc-rules",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"{{apiV}}",
+								"list-ie-cidr-svc-rules"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[RULE-IE-CIDR-SVC] Поиск правила по name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response;",
+									"",
+									"pm.test(\"Status code is 200\", () => {",
+									"    response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Validate response JSON schema\", () => {",
+									"    const RulesJsonSchema = JSON.parse(pm.variables.get(\"ruleIeCidrSvcResponseJsonSchema\"))",
+									"    response.to.have.jsonSchema(RulesJsonSchema);",
+									"});",
+									"",
+									"pm.test(\"Rules array size is 1\", () => {",
+									"    const rulesArrayLength = pm.expect(response.json().rules.length)",
+									"    rulesArrayLength.to.eql(1);",
+									"});",
+									"",
+									"pm.test(\"check rules\", () => {",
+									"    const rules = pm.response.json().rules[0]",
+									"",
+									"    const ports = [",
+									"        {",
+									"            \"s\": \"\",",
+									"            \"d\": \"60000\"",
+									"        }",
+									"    ]",
+									"",
+									"    pm.expect(rules.name).to.eql(\"ie-cird-svc-0\")",
+									"    pm.expect(rules.svc).to.eql(\"svc-2\")",
+									"    pm.expect(rules.CIDR).to.eql(\"10.0.0.0/8\")",
+									"    pm.expect(rules.transport).to.eql(\"TCP\")",
+									"    pm.expect(rules.traffic).to.eql(\"Ingress\")",
+									"    pm.expect(rules.ports).to.eql(ports)",
+									"    pm.expect(rules.logs).to.eql(true)",
+									"    pm.expect(rules.trace).to.eql(true)",
+									"    pm.expect(rules.action).to.eql(\"DROP\")",
+									"    pm.expect(rules.priority.some).to.eql(0)",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"byRuleName\": {\n        \"names\": [\n            \"ie-cird-svc-0\"\n        ]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}:{{PORT}}/{{apiV}}/list-ie-cidr-svc-rules",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"{{apiV}}",
+								"list-ie-cidr-svc-rules"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[RULE-IE-CIDR-SVC] Поиск правила по существующему + несуществующему names",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response;",
+									"",
+									"pm.test(\"Status code is 200\", () => {",
+									"    response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Validate response JSON schema\", () => {",
+									"    const RulesJsonSchema = JSON.parse(pm.variables.get(\"ruleIeCidrSvcResponseJsonSchema\"))",
+									"    response.to.have.jsonSchema(RulesJsonSchema);",
+									"});",
+									"",
+									"pm.test(\"Rules array size is 1\", () => {",
+									"    const rulesArrayLength = pm.expect(response.json().rules.length)",
+									"    rulesArrayLength.to.eql(1);",
+									"});",
+									"",
+									"pm.test(\"check rules\", () => {",
+									"    const rules = pm.response.json().rules[0]",
+									"",
+									"    const ports = [",
+									"        {",
+									"            \"s\": \"\",",
+									"            \"d\": \"60000\"",
+									"        }",
+									"    ]",
+									"",
+									"    pm.expect(rules.name).to.eql(\"ie-cird-svc-0\")",
+									"    pm.expect(rules.svc).to.eql(\"svc-2\")",
+									"    pm.expect(rules.CIDR).to.eql(\"10.0.0.0/8\")",
+									"    pm.expect(rules.transport).to.eql(\"TCP\")",
+									"    pm.expect(rules.traffic).to.eql(\"Ingress\")",
+									"    pm.expect(rules.ports).to.eql(ports)",
+									"    pm.expect(rules.logs).to.eql(true)",
+									"    pm.expect(rules.trace).to.eql(true)",
+									"    pm.expect(rules.action).to.eql(\"DROP\")",
+									"    pm.expect(rules.priority.some).to.eql(0)",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"byRuleName\": {\n        \"names\": [\n            \"ie-cird-svc-0\",\n            \"rule-not-exist\"\n        ]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}:{{PORT}}/{{apiV}}/list-ie-cidr-svc-rules",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"{{apiV}}",
+								"list-ie-cidr-svc-rules"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[RULE-IE-CIDR-SVC] Поиск правила по несуществующему name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response;",
+									"",
+									"pm.test(\"Status code is 200\", () => {",
+									"    response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Validate response JSON schema\", () => {",
+									"    const RulesJsonSchema = JSON.parse(pm.variables.get(\"ruleIeCidrSvcResponseJsonSchema\"))",
+									"    response.to.have.jsonSchema(RulesJsonSchema);",
+									"});",
+									"",
+									"pm.test(\"Rules array size is 0\", () => {",
+									"    const rulesArrayLength = pm.expect(response.json().rules.length)",
+									"    rulesArrayLength.to.eql(0);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"byRuleName\": {\n        \"names\": [\n            \"rule-not-exist\"\n        ]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}:{{PORT}}/{{apiV}}/list-ie-cidr-svc-rules",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"{{apiV}}",
+								"list-ie-cidr-svc-rules"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[RULE-IE-CIDR-SVC] Поиск 2 правил по names",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response;",
+									"",
+									"pm.test(\"Status code is 200\", () => {",
+									"    response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Validate response JSON schema\", () => {",
+									"    const RulesJsonSchema = JSON.parse(pm.variables.get(\"ruleIeCidrSvcResponseJsonSchema\"))",
+									"    response.to.have.jsonSchema(RulesJsonSchema);",
+									"});",
+									"",
+									"pm.test(\"Rules array size is 2\", () => {",
+									"    const rulesArrayLength = pm.expect(response.json().rules.length)",
+									"    rulesArrayLength.to.eql(2);",
+									"});",
+									"",
+									"pm.test(\"Check rules\", () => {",
+									"    const rulesItems = pm.response.json().rules;",
+									"",
+									"    const portsOne = [",
+									"        {",
+									"            \"s\": \"\",",
+									"            \"d\": \"60000\"",
+									"        }",
+									"    ]",
+									"",
+									"    const portsTwo = [",
+									"        {",
+									"            \"s\": \"47000-47599,47771\",",
+									"            \"d\": \"57400,57500-57700\"",
+									"        },",
+									"        {",
+									"            \"s\": \"48000,48500-49000\",",
+									"            \"d\": \"59000\"",
+									"        }",
+									"    ]",
+									"",
+									"    const testData = {",
+									"        \"ie-cird-svc-0\": [\"TCP\", \"10.0.0.0/8\", \"svc-2\", \"Ingress\", portsOne, true, true, \"DROP\", 0],",
+									"        \"ie-cird-svc-3\": [\"UDP\", \"1.1.1.1/32\", \"svc-3\", \"Egress\", portsTwo, false, false, \"DROP\", 32767]",
+									"    };",
+									"",
+									"    pm.expect(rulesItems).to.be.not.empty;",
+									"",
+									"    rulesItems.forEach(rule => {",
+									"        pm.expect(rule.transport).to.eql(testData[rule.name][0]);",
+									"        pm.expect(rule.CIDR).to.eql(testData[rule.name][1]);",
+									"        pm.expect(rule.svc).to.eql(testData[rule.name][2]);",
+									"        pm.expect(rule.traffic).to.eql(testData[rule.name][3]);",
+									"        pm.expect(rule.ports).to.eql(testData[rule.name][4]);",
+									"        pm.expect(rule.logs).to.eql(testData[rule.name][5]);",
+									"        pm.expect(rule.trace).to.eql(testData[rule.name][6]);",
+									"        pm.expect(rule.action).to.eql(testData[rule.name][7]);",
+									"        pm.expect(rule.priority.some).to.eql(testData[rule.name][8]);",
+									"    });",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"byRuleName\": {\n        \"names\": [\n            \"ie-cird-svc-0\",\n            \"ie-cird-svc-3\"\n        ]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}:{{PORT}}/{{apiV}}/list-ie-cidr-svc-rules",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"{{apiV}}",
+								"list-ie-cidr-svc-rules"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[RULE-IE-CIDR-SVC] Поиск по пустому массиву names",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response;",
+									"",
+									"pm.test(\"Status code is 200\", () => {",
+									"    response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Validate response JSON schema\", () => {",
+									"    const RulesJsonSchema = JSON.parse(pm.variables.get(\"ruleIeCidrSvcResponseJsonSchema\"))",
+									"    response.to.have.jsonSchema(RulesJsonSchema);",
+									"});",
+									"",
+									"pm.test(\"Rules array size is 5\", () => {",
+									"    const rulesArrayLength = pm.expect(response.json().rules.length)",
+									"    rulesArrayLength.to.eql(5);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"byRuleName\": {\n        \"names\": []\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}:{{PORT}}/{{apiV}}/list-ie-cidr-svc-rules",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"{{apiV}}",
+								"list-ie-cidr-svc-rules"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[RULE-IE-CIDR-SVC] Ошибка при поиске по name, name > 255 символов",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response;",
+									"",
+									"pm.test(\"Status code is 500\", () => {",
+									"    response.to.have.status(500);",
+									"});",
+									"",
+									"pm.test(\"Validate response JSON schema\", () => {",
+									"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))",
+									"    response.to.have.jsonSchema(errorJsonSchema);",
+									"});",
+									"",
+									"pm.test(\"Code is 13\", () => {",
+									"   const code = pm.expect(response.json().code)",
+									"   code.to.eql(13);",
+									"});",
+									"",
+									"pm.test(\"Check error message\", () => {",
+									"   const message = pm.expect(response.json().message)",
+									"",
+									"   const expectedStrings = [\"cname_length\", \"ERROR\"]",
+									"   expectedStrings.forEach(string => {",
+									"       message.to.include(string)",
+									"   })",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.variables.set(\"name\", JSON.stringify(customFunc.generateRandomString (256, 10)))"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"byRuleName\": {\n        \"names\": [\n            {{name}}\n        ]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}:{{PORT}}/{{apiV}}/list-ie-cidr-svc-rules",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"{{apiV}}",
+								"list-ie-cidr-svc-rules"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[RULE-IE-CIDR-SVC] Ошибка при поиске по name, пробел в начале имени",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response;",
+									"",
+									"pm.test(\"Status code is 500\", () => {",
+									"    response.to.have.status(500);",
+									"});",
+									"",
+									"pm.test(\"Validate response JSON schema\", () => {",
+									"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))",
+									"    response.to.have.jsonSchema(errorJsonSchema);",
+									"});",
+									"",
+									"pm.test(\"Code is 13\", () => {",
+									"   const code = pm.expect(response.json().code)",
+									"   code.to.eql(13);",
+									"});",
+									"",
+									"pm.test(\"Check error message\", () => {",
+									"   const message = pm.expect(response.json().message)",
+									"",
+									"   const expectedStrings = [\"cname_validity\", \"ERROR\"]",
+									"   expectedStrings.forEach(string => {",
+									"       message.to.include(string)",
+									"   })",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"byRuleName\": {\n        \"names\": [\n            \" ie-cird-svc-0\"\n        ]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}:{{PORT}}/{{apiV}}/list-ie-cidr-svc-rules",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"{{apiV}}",
+								"list-ie-cidr-svc-rules"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[RULE-IE-CIDR-SVC] Ошибка при поиске по name, пробел в конце имени",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response;",
+									"",
+									"pm.test(\"Status code is 500\", () => {",
+									"    response.to.have.status(500);",
+									"});",
+									"",
+									"pm.test(\"Validate response JSON schema\", () => {",
+									"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))",
+									"    response.to.have.jsonSchema(errorJsonSchema);",
+									"});",
+									"",
+									"pm.test(\"Code is 13\", () => {",
+									"   const code = pm.expect(response.json().code)",
+									"   code.to.eql(13);",
+									"});",
+									"",
+									"pm.test(\"Check error message\", () => {",
+									"   const message = pm.expect(response.json().message)",
+									"",
+									"   const expectedStrings = [\"cname_validity\", \"ERROR\"]",
+									"   expectedStrings.forEach(string => {",
+									"       message.to.include(string)",
+									"   })",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"byRuleName\": {\n        \"names\": [\n            \"ie-cird-svc-0 \"\n        ]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}:{{PORT}}/{{apiV}}/list-ie-cidr-svc-rules",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"{{apiV}}",
+								"list-ie-cidr-svc-rules"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[RULE-IE-CIDR-SVC] Ошибка при поиске по name, пустая строка в массиве",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response;",
+									"",
+									"pm.test(\"Status code is 500\", () => {",
+									"    response.to.have.status(500);",
+									"});",
+									"",
+									"pm.test(\"Validate response JSON schema\", () => {",
+									"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))",
+									"    response.to.have.jsonSchema(errorJsonSchema);",
+									"});",
+									"",
+									"pm.test(\"Code is 13\", () => {",
+									"   const code = pm.expect(response.json().code)",
+									"   code.to.eql(13);",
+									"});",
+									"",
+									"pm.test(\"Check error message\", () => {",
+									"   const message = pm.expect(response.json().message)",
+									"",
+									"   const expectedStrings = [\"cname_validity\", \"ERROR\"]",
+									"   expectedStrings.forEach(string => {",
+									"       message.to.include(string)",
+									"   })",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"byRuleName\": {\n        \"names\": [\n            \"\"\n        ]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}:{{PORT}}/{{apiV}}/list-ie-cidr-svc-rules",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"{{apiV}}",
+								"list-ie-cidr-svc-rules"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[RULE-IE-CIDR-SVC] Ошибка при поиске по name, ошибка в названии параметра",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response;",
+									"",
+									"pm.test(\"Status code is 400\", () => {",
+									"    response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Validate response JSON schema\", () => {",
+									"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))",
+									"    response.to.have.jsonSchema(errorJsonSchema);",
+									"});",
+									"",
+									"pm.test(\"Code is 3\", () => {",
+									"   const code = pm.expect(response.json().code)",
+									"   code.to.eql(3);",
+									"});",
+									"",
+									"pm.test(\"Check error message\", () => {",
+									"   const message = pm.expect(response.json().message)",
+									"",
+									"   const expectedStrings = [\"unknown field\"]",
+									"   expectedStrings.forEach(string => {",
+									"       message.to.include(string)",
+									"   })",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"byRuleName\": {\n        \"name\": [\n            \"\"\n        ]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}:{{PORT}}/{{apiV}}/list-ie-cidr-svc-rules",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"{{apiV}}",
+								"list-ie-cidr-svc-rules"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[RULE-IE-CIDR-SVC] Поиск правила по svc",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response;",
+									"",
+									"pm.test(\"Status code is 200\", () => {",
+									"    response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Validate response JSON schema\", () => {",
+									"    const RulesJsonSchema = JSON.parse(pm.variables.get(\"ruleIeCidrSvcResponseJsonSchema\"))",
+									"    response.to.have.jsonSchema(RulesJsonSchema);",
+									"});",
+									"",
+									"pm.test(\"Rules array size is 1\", () => {",
+									"    const rulesArrayLength = pm.expect(response.json().rules.length)",
+									"    rulesArrayLength.to.eql(1);",
+									"});",
+									"",
+									"pm.test(\"check rules\", () => {",
+									"    const rules = pm.response.json().rules[0]",
+									"",
+									"    const ports = [",
+									"        {",
+									"                    \"s\": \"46000-46070\",",
+									"                    \"d\": \"57000-57300\"",
+									"                }",
+									"    ]",
+									"",
+									"    pm.expect(rules.name).to.eql(\"ie-cird-svc-4\")",
+									"    pm.expect(rules.svc).to.eql(\"svc-4\")",
+									"    pm.expect(rules.CIDR).to.eql(\"128.128.0.0/16\")",
+									"    pm.expect(rules.transport).to.eql(\"TCP\")",
+									"    pm.expect(rules.traffic).to.eql(\"Ingress\")",
+									"    pm.expect(rules.ports).to.eql(ports)",
+									"    pm.expect(rules.logs).to.eql(true)",
+									"    pm.expect(rules.trace).to.eql(true)",
+									"    pm.expect(rules.action).to.eql(\"DROP\")",
+									"    pm.expect(rules.priority.some).to.eql(0)",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"bySvc\": {\n        \"svcNames\": [\n            \"svc-4\"\n        ]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}:{{PORT}}/{{apiV}}/list-ie-cidr-svc-rules",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"{{apiV}}",
+								"list-ie-cidr-svc-rules"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[RULE-IE-CIDR-SVC] Поиск правила по существующему + несуществующему svc",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response;",
+									"",
+									"pm.test(\"Status code is 200\", () => {",
+									"    response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Validate response JSON schema\", () => {",
+									"    const RulesJsonSchema = JSON.parse(pm.variables.get(\"ruleIeCidrSvcResponseJsonSchema\"))",
+									"    response.to.have.jsonSchema(RulesJsonSchema);",
+									"});",
+									"",
+									"pm.test(\"Rules array size is 1\", () => {",
+									"    const rulesArrayLength = pm.expect(response.json().rules.length)",
+									"    rulesArrayLength.to.eql(1);",
+									"});",
+									"",
+									"pm.test(\"check rules\", () => {",
+									"    const rules = pm.response.json().rules[0]",
+									"",
+									"    const ports = [",
+									"        {",
+									"                    \"s\": \"46000-46070\",",
+									"                    \"d\": \"57000-57300\"",
+									"                }",
+									"    ]",
+									"",
+									"    pm.expect(rules.name).to.eql(\"ie-cird-svc-4\")",
+									"    pm.expect(rules.svc).to.eql(\"svc-4\")",
+									"    pm.expect(rules.CIDR).to.eql(\"128.128.0.0/16\")",
+									"    pm.expect(rules.transport).to.eql(\"TCP\")",
+									"    pm.expect(rules.traffic).to.eql(\"Ingress\")",
+									"    pm.expect(rules.ports).to.eql(ports)",
+									"    pm.expect(rules.logs).to.eql(true)",
+									"    pm.expect(rules.trace).to.eql(true)",
+									"    pm.expect(rules.action).to.eql(\"DROP\")",
+									"    pm.expect(rules.priority.some).to.eql(0)",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"bySvc\": {\n        \"svcNames\": [\n            \"svc-4\",\n            \"svc-not-exist\"\n        ]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}:{{PORT}}/{{apiV}}/list-ie-cidr-svc-rules",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"{{apiV}}",
+								"list-ie-cidr-svc-rules"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[RULE-IE-CIDR-SVC] Поиск правила по несуществующему svc",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response;",
+									"",
+									"pm.test(\"Status code is 200\", () => {",
+									"    response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Validate response JSON schema\", () => {",
+									"    const RulesJsonSchema = JSON.parse(pm.variables.get(\"ruleIeCidrSvcResponseJsonSchema\"))",
+									"    response.to.have.jsonSchema(RulesJsonSchema);",
+									"});",
+									"",
+									"pm.test(\"Rules array size is 0\", () => {",
+									"    const rulesArrayLength = pm.expect(response.json().rules.length)",
+									"    rulesArrayLength.to.eql(0);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"bySvc\": {\n        \"svcNames\": [\n            \"svc-not-exist\"\n        ]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}:{{PORT}}/{{apiV}}/list-ie-cidr-svc-rules",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"{{apiV}}",
+								"list-ie-cidr-svc-rules"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[RULE-IE-CIDR-SVC] Поиск 2 правил по svc",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response;",
+									"",
+									"pm.test(\"Status code is 200\", () => {",
+									"    response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Validate response JSON schema\", () => {",
+									"    const RulesJsonSchema = JSON.parse(pm.variables.get(\"ruleIeCidrSvcResponseJsonSchema\"))",
+									"    response.to.have.jsonSchema(RulesJsonSchema);",
+									"});",
+									"",
+									"pm.test(\"Rules array size is 2\", () => {",
+									"    const rulesArrayLength = pm.expect(response.json().rules.length)",
+									"    rulesArrayLength.to.eql(2);",
+									"});",
+									"",
+									"pm.test(\"Check rules\", () => {",
+									"    const rulesItems = pm.response.json().rules;",
+									"",
+									"    const portsOne = [",
+									"        {",
+									"            \"s\": \"\",",
+									"            \"d\": \"60000\"",
+									"        }",
+									"    ]",
+									"",
+									"    const portsTwo = [",
+									"        {",
+									"                    \"s\": \"45000\",",
+									"                    \"d\": \"55000\"",
+									"                },",
+									"                {",
+									"                    \"s\": \"45001\",",
+									"                    \"d\": \"55001-55500,55502\"",
+									"                },",
+									"                {",
+									"                    \"s\": \"45002\",",
+									"                    \"d\": \"56000-56500\"",
+									"                }",
+									"    ]",
+									"",
+									"    const testData = {",
+									"        \"ie-cird-svc-0\": [\"TCP\", \"10.0.0.0/8\", \"svc-2\", \"Ingress\", portsOne, true, true, \"DROP\", 0],",
+									"        \"ie-cird-svc-1\": [\"TCP\", \"10.10.10.10/32\", \"svc-2\", \"Egress\", portsTwo, true, false, \"ACCEPT\", 0]",
+									"    };",
+									"",
+									"    pm.expect(rulesItems).to.be.not.empty;",
+									"",
+									"    rulesItems.forEach(rule => {",
+									"        pm.expect(rule.transport).to.eql(testData[rule.name][0]);",
+									"        pm.expect(rule.CIDR).to.eql(testData[rule.name][1]);",
+									"        pm.expect(rule.svc).to.eql(testData[rule.name][2]);",
+									"        pm.expect(rule.traffic).to.eql(testData[rule.name][3]);",
+									"        pm.expect(rule.ports).to.eql(testData[rule.name][4]);",
+									"        pm.expect(rule.logs).to.eql(testData[rule.name][5]);",
+									"        pm.expect(rule.trace).to.eql(testData[rule.name][6]);",
+									"        pm.expect(rule.action).to.eql(testData[rule.name][7]);",
+									"        pm.expect(rule.priority.some).to.eql(testData[rule.name][8]);",
+									"    });",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"bySvc\": {\n        \"svcNames\": [\n            \"svc-2\"\n        ]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}:{{PORT}}/{{apiV}}/list-ie-cidr-svc-rules",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"{{apiV}}",
+								"list-ie-cidr-svc-rules"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[RULE-IE-CIDR-SVC] Поиск по пустому массиву svc",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response;",
+									"",
+									"pm.test(\"Status code is 200\", () => {",
+									"    response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Validate response JSON schema\", () => {",
+									"    const RulesJsonSchema = JSON.parse(pm.variables.get(\"ruleIeCidrSvcResponseJsonSchema\"))",
+									"    response.to.have.jsonSchema(RulesJsonSchema);",
+									"});",
+									"",
+									"pm.test(\"Rules array size is 5\", () => {",
+									"    const rulesArrayLength = pm.expect(response.json().rules.length)",
+									"    rulesArrayLength.to.eql(5);",
+									"});",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"bySvc\": {\n        \"svcNames\": []\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}:{{PORT}}/{{apiV}}/list-ie-cidr-svc-rules",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"{{apiV}}",
+								"list-ie-cidr-svc-rules"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[RULE-IE-CIDR-SVC] Ошибка при поиске по svc, svc > 255 символов",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response;",
+									"",
+									"pm.test(\"Status code is 500\", () => {",
+									"    response.to.have.status(500);",
+									"});",
+									"",
+									"pm.test(\"Validate response JSON schema\", () => {",
+									"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))",
+									"    response.to.have.jsonSchema(errorJsonSchema);",
+									"});",
+									"",
+									"pm.test(\"Code is 13\", () => {",
+									"   const code = pm.expect(response.json().code)",
+									"   code.to.eql(13);",
+									"});",
+									"",
+									"pm.test(\"Check error message\", () => {",
+									"   const message = pm.expect(response.json().message)",
+									"",
+									"   const expectedStrings = [\"cname_length\", \"ERROR\"]",
+									"   expectedStrings.forEach(string => {",
+									"       message.to.include(string)",
+									"   })",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.variables.set(\"svc\", JSON.stringify(customFunc.generateRandomString (256, 10)))"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"bySvc\": {\n        \"svcNames\": [\n            {{svc}}\n        ]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}:{{PORT}}/{{apiV}}/list-ie-cidr-svc-rules",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"{{apiV}}",
+								"list-ie-cidr-svc-rules"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[RULE-IE-CIDR-SVC] Ошибка при поиске по svc, пробел в начале имени svc",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response;",
+									"",
+									"pm.test(\"Status code is 500\", () => {",
+									"    response.to.have.status(500);",
+									"});",
+									"",
+									"pm.test(\"Validate response JSON schema\", () => {",
+									"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))",
+									"    response.to.have.jsonSchema(errorJsonSchema);",
+									"});",
+									"",
+									"pm.test(\"Code is 13\", () => {",
+									"   const code = pm.expect(response.json().code)",
+									"   code.to.eql(13);",
+									"});",
+									"",
+									"pm.test(\"Check error message\", () => {",
+									"   const message = pm.expect(response.json().message)",
+									"",
+									"   const expectedStrings = [\"cname_validity\", \"ERROR\"]",
+									"   expectedStrings.forEach(string => {",
+									"       message.to.include(string)",
+									"   })",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.variables.set(\"svc\", JSON.stringify(customFunc.generateRandomString (256, 10)))"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"bySvc\": {\n        \"svcNames\": [\n            \" svc-4\"\n        ]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}:{{PORT}}/{{apiV}}/list-ie-cidr-svc-rules",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"{{apiV}}",
+								"list-ie-cidr-svc-rules"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[RULE-IE-CIDR-SVC] Ошибка при поиске по svc, пробел в конце имени svc",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response;",
+									"",
+									"pm.test(\"Status code is 500\", () => {",
+									"    response.to.have.status(500);",
+									"});",
+									"",
+									"pm.test(\"Validate response JSON schema\", () => {",
+									"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))",
+									"    response.to.have.jsonSchema(errorJsonSchema);",
+									"});",
+									"",
+									"pm.test(\"Code is 13\", () => {",
+									"   const code = pm.expect(response.json().code)",
+									"   code.to.eql(13);",
+									"});",
+									"",
+									"pm.test(\"Check error message\", () => {",
+									"   const message = pm.expect(response.json().message)",
+									"",
+									"   const expectedStrings = [\"cname_validity\", \"ERROR\"]",
+									"   expectedStrings.forEach(string => {",
+									"       message.to.include(string)",
+									"   })",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.variables.set(\"svc\", JSON.stringify(customFunc.generateRandomString (256, 10)))"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"bySvc\": {\n        \"svcNames\": [\n            \"svc-4 \"\n        ]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}:{{PORT}}/{{apiV}}/list-ie-cidr-svc-rules",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"{{apiV}}",
+								"list-ie-cidr-svc-rules"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[RULE-IE-CIDR-SVC] Ошибка при поиске по svc, пустая строка в массиве svc",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response;",
+									"",
+									"pm.test(\"Status code is 500\", () => {",
+									"    response.to.have.status(500);",
+									"});",
+									"",
+									"pm.test(\"Validate response JSON schema\", () => {",
+									"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))",
+									"    response.to.have.jsonSchema(errorJsonSchema);",
+									"});",
+									"",
+									"pm.test(\"Code is 13\", () => {",
+									"   const code = pm.expect(response.json().code)",
+									"   code.to.eql(13);",
+									"});",
+									"",
+									"pm.test(\"Check error message\", () => {",
+									"   const message = pm.expect(response.json().message)",
+									"",
+									"   const expectedStrings = [\"cname_validity\", \"ERROR\"]",
+									"   expectedStrings.forEach(string => {",
+									"       message.to.include(string)",
+									"   })",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.variables.set(\"svc\", JSON.stringify(customFunc.generateRandomString (256, 10)))"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"bySvc\": {\n        \"svcNames\": [\n            \"\"\n        ]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}:{{PORT}}/{{apiV}}/list-ie-cidr-svc-rules",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"{{apiV}}",
+								"list-ie-cidr-svc-rules"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[RULE-IE-CIDR-SVC] Ошибка при поиске по svc, ошибка в названии параметра",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response;",
+									"",
+									"pm.test(\"Status code is 400\", () => {",
+									"    response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Validate response JSON schema\", () => {",
+									"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))",
+									"    response.to.have.jsonSchema(errorJsonSchema);",
+									"});",
+									"",
+									"pm.test(\"Code is 3\", () => {",
+									"   const code = pm.expect(response.json().code)",
+									"   code.to.eql(3);",
+									"});",
+									"",
+									"pm.test(\"Check error message\", () => {",
+									"   const message = pm.expect(response.json().message)",
+									"",
+									"   const expectedStrings = [\"unknown field\"]",
+									"   expectedStrings.forEach(string => {",
+									"       message.to.include(string)",
+									"   })",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.variables.set(\"svc\", JSON.stringify(customFunc.generateRandomString (256, 10)))"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"bySvc\": {\n        \"svcName\": [\n            \"jj\"\n        ]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}:{{PORT}}/{{apiV}}/list-ie-cidr-svc-rules",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"{{apiV}}",
+								"list-ie-cidr-svc-rules"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[RULE-IE-CIDR-SVC] Ошибка при поиске, пустое тело",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response;",
+									"",
+									"pm.test(\"Status code is 500\", () => {",
+									"    response.to.have.status(500);",
+									"});",
+									"",
+									"pm.test(\"Validate response JSON schema\", () => {",
+									"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))",
+									"    response.to.have.jsonSchema(errorJsonSchema);",
+									"});",
+									"",
+									"pm.test(\"Code is 13\", () => {",
+									"   const code = pm.expect(response.json().code)",
+									"   code.to.eql(13);",
+									"});",
+									"",
+									"pm.test(\"Check error message\", () => {",
+									"   const message = pm.expect(response.json().message)",
+									"",
+									"   const expectedStrings = [\"unexpected scope\"]",
+									"   expectedStrings.forEach(string => {",
+									"       message.to.include(string)",
+									"   })",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.variables.set(\"svc\", JSON.stringify(customFunc.generateRandomString (256, 10)))"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}:{{PORT}}/{{apiV}}/list-ie-cidr-svc-rules",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"{{apiV}}",
+								"list-ie-cidr-svc-rules"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[RULE-IE-CIDR-SVC] Ошибка при поиске, поиск по нескольким параметрам одновременно",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response;",
+									"",
+									"pm.test(\"Status code is 400\", () => {",
+									"    response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Validate response JSON schema\", () => {",
+									"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))",
+									"    response.to.have.jsonSchema(errorJsonSchema);",
+									"});",
+									"",
+									"pm.test(\"Code is 3\", () => {",
+									"   const code = pm.expect(response.json().code)",
+									"   code.to.eql(3);",
+									"});",
+									"",
+									"pm.test(\"Check error message\", () => {",
+									"   const message = pm.expect(response.json().message)",
+									"",
+									"   const expectedStrings = [\"oneof\", \"is already set\"]",
+									"   expectedStrings.forEach(string => {",
+									"       message.to.include(string)",
+									"   })",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.variables.set(\"svc\", JSON.stringify(customFunc.generateRandomString (256, 10)))"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"none\": {},\n    \"byRuleName\": {\n        \"names\": [\n            \"svc\"\n        ]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}:{{PORT}}/{{apiV}}/list-ie-cidr-svc-rules",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"{{apiV}}",
+								"list-ie-cidr-svc-rules"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[RULE-IE-CIDR-SVC] Ошибка при поиске, опечатка в урле",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response;",
+									"",
+									"pm.test(\"Status code is 404\", () => {",
+									"    response.to.have.status(404);",
+									"});",
+									"",
+									"pm.test(\"Validate response JSON schema\", () => {",
+									"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))",
+									"    response.to.have.jsonSchema(errorJsonSchema);",
+									"});",
+									"",
+									"pm.test(\"Code is 5\", () => {",
+									"   const code = pm.expect(response.json().code)",
+									"   code.to.eql(5);",
+									"});",
+									"",
+									"pm.test(\"Check error message\", () => {",
+									"   const message = pm.expect(response.json().message)",
+									"",
+									"   const expectedStrings = [\"Not Found\"]",
+									"   expectedStrings.forEach(string => {",
+									"       message.to.include(string)",
+									"   })",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.variables.set(\"svc\", JSON.stringify(customFunc.generateRandomString (256, 10)))"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"none\": {}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}:{{PORT}}/{{apiV}}/list-ie-cidr-svc-rule",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"{{apiV}}",
+								"list-ie-cidr-svc-rule"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[RULE-IE-CIDR-SVC] Ошибка при поиске, полностью некорректное тело",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response;",
+									"",
+									"pm.test(\"Status code is 404\", () => {",
+									"    response.to.have.status(404);",
+									"});",
+									"",
+									"pm.test(\"Validate response JSON schema\", () => {",
+									"    const errorJsonSchema = JSON.parse(pm.variables.get(\"errorResponseJsonSchema\"))",
+									"    response.to.have.jsonSchema(errorJsonSchema);",
+									"});",
+									"",
+									"pm.test(\"Code is 5\", () => {",
+									"   const code = pm.expect(response.json().code)",
+									"   code.to.eql(5);",
+									"});",
+									"",
+									"pm.test(\"Check error message\", () => {",
+									"   const message = pm.expect(response.json().message)",
+									"",
+									"   const expectedStrings = [\"Not Found\"]",
+									"   expectedStrings.forEach(string => {",
+									"       message.to.include(string)",
+									"   })",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.variables.set(\"svc\", JSON.stringify(customFunc.generateRandomString (256, 10)))"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"haha\": \"hehe\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}:{{PORT}}/{{apiV}}/list-ie-cidr-svc-rule",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"{{apiV}}",
+								"list-ie-cidr-svc-rule"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Получение статуса последнего успешного обновления",
 			"event": [
 				{
@@ -45600,6 +48509,10 @@
 		},
 		{
 			"key": "ruleSvcFqdnResponseJsonSchema",
+			"value": ""
+		},
+		{
+			"key": "ruleIeCidrSvcResponseJsonSchema",
 			"value": ""
 		}
 	]
