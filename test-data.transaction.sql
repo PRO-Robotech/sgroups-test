@@ -258,6 +258,83 @@
                      0
                     );
 
+            INSERT INTO
+                sgroups.tbl_ie_cidr_svc_rule(name, proto, cidr, svc, traffic, ports, logs, trace, action, priority)
+            VALUES
+                (
+                    'ie-cird-svc-0',
+                    'tcp',
+                    '10.0.0.0/8',
+                    (SELECT id FROM sgroups.tbl_service WHERE name = 'svc-2'),
+                    'ingress',
+                    ARRAY[
+                        ((int4multirange(int4range(NULL))), (int4multirange(int4range(60000,60001))))
+                    ]::sgroups.sg_rule_ports[],
+                    true,
+                    true,
+                    'DROP',
+                    0
+                ),
+                (
+                    'ie-cird-svc-1',
+                    'tcp',
+                    '10.10.10.10/32',
+                    (SELECT id FROM sgroups.tbl_service WHERE name = 'svc-2'),
+                    'egress',
+                    ARRAY[
+                        ((int4multirange(int4range(45000, 45001))), (int4multirange(int4range(55000, 55001)))),
+                        ((int4multirange(int4range(45001, 45002))), (int4multirange(int4range(55001, 55501), int4range(55502, 55503)))),
+                        ((int4multirange(int4range(45002, 45003))), (int4multirange(int4range(56000, 56501))))
+                    ]::sgroups.sg_rule_ports[],
+                    true,
+                    false,
+                    'ACCEPT',
+                    0
+                ),
+                (
+                    'ie-cird-svc-2',
+                    'udp',
+                    '0.0.0.0/0',
+                    (SELECT id FROM sgroups.tbl_service WHERE name = 'svc-3'),
+                    'ingress',
+                    ARRAY[
+                        ((int4multirange(int4range(46000, 46071))), (int4multirange(int4range(57000, 57301))))
+                    ]::sgroups.sg_rule_ports[],
+                    false,
+                    true,
+                    'ACCEPT',
+                    -32768
+                ),
+                (
+                    'ie-cird-svc-3',
+                    'udp',
+                    '1.1.1.1/32',
+                    (SELECT id FROM sgroups.tbl_service WHERE name = 'svc-3'),
+                    'egress',
+                    ARRAY[
+                        ((int4multirange(int4range(47771, 47772), int4range(47000, 47600))), (int4multirange(int4range(57400, 57401), int4range(57500, 57701)))),
+                        ((int4multirange(int4range(48000, 48001), int4range(48500, 49001))), (int4multirange(int4range(59000, 59001))))
+                    ]::sgroups.sg_rule_ports[],
+                    false,
+                    false,
+                    'DROP',
+                    32767
+                ),
+                (
+                    'ie-cird-svc-4',
+                    'tcp',
+                    '128.128.0.0/16',
+                    (SELECT id FROM sgroups.tbl_service WHERE name = 'svc-2'),
+                    'ingress',
+                    ARRAY[
+                        ((int4multirange(int4range(46000, 46071))), (int4multirange(int4range(57000, 57301))))
+                    ]::sgroups.sg_rule_ports[],
+                    true,
+                    true,
+                    'DROP',
+                    0
+                );
+
             INSERT INTO sgroups.tbl_svc_svc_rule(name, svc_from, svc_to, logs, trace, action, priority)
                 VALUES
                     (
